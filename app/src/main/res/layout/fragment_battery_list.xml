@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/battery_swipe"
+        >
+
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerviewBatteries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:saveEnabled="false"
+            android:clipToPadding="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonBatteryListAddBattery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        fab:fab_icon="@mipmap/ic_add"
+        fab:fab_colorNormal="@color/orange_tbe"
+        fab:fab_colorPressed="@color/orange_tbe"
+        android:layout_marginBottom="16dp"/>
+</FrameLayout>

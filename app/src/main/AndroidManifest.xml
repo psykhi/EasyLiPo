@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.theboredengineers.easylipo" >
+
+    <!-- Google Analytics required permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.NFC" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+
+    <!-- Optional permission for reliable local dispatching on non-Google Play devices -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".ui.activities.ActivityBatteryList"
+            android:label="@string/my_batteries" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Add the following meta-data for devices running Google Play service. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <!--
+             Optionally, register AnalyticsReceiver and AnalyticsService to support background
+             dispatching on non-Google Play devices
+        -->
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!--
+             Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
+             installation campaign reporting
+        -->
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
+        <activity
+            android:name=".ui.activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="stateAlwaysVisible" >
+        </activity>
+        <activity
+            android:name=".ui.activities.SignUpActivity"
+            android:label="@string/signup_activity_title"
+            android:windowSoftInputMode="stateAlwaysVisible" >
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="59fee72baa9457de551adf23b76e86f81b2bf3ca" />
+
+        <activity
+            android:name=".ui.activities.ActivityCreateBattery"
+            android:label="@string/title_activity_activity_create_battery"
+            android:parentActivityName=".ui.activities.ActivityBatteryList" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.theboredengineers.easylipo.ui.activities.ActivityBatteryList" />
+        </activity>
+        <activity
+            android:name=".ui.activities.ActivityBatteryDetails"
+            android:label="@string/title_activity_activity_battery_details"
+            android:parentActivityName=".ui.activities.ActivityBatteryList" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <data android:mimeType="com.theboredengineers/easylipo" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.theboredengineers.easylipo.ui.activities.ActivityBatteryList" />
+        </activity>
+        <activity
+            android:name=".ui.activities.ActivityBatteryEdit"
+            android:label="@string/title_activity_activity_battery_edit"
+            android:parentActivityName=".ui.activities.ActivityBatteryDetails" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.theboredengineers.easylipo.ui.activities.ActivityBatteryDetails" />
+        </activity>
+    </application>
+
+</manifest>

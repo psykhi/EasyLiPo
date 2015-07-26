@@ -1,0 +1,99 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:fab="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.theboredengineers.easylipo.ui.fragments.BatteryEditFragment"
+                android:id="@+id/edit">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextBatteryEditName"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:hint="Name"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextBatteryEditBrand"
+                android:layout_below="@+id/scrollView"
+                android:layout_centerHorizontal="true"
+                android:hint="Brand"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextBatteryEditModel"
+                android:layout_below="@+id/editTextBatteryEditBrand"
+                android:layout_centerHorizontal="true"
+                android:hint="Model"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editTextBatteryEditCapacity"
+                android:layout_below="@+id/scrollView"
+                android:layout_centerHorizontal="true"
+                android:hint="Capacity in mAh"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editTextBatteryEditCells"
+                android:layout_below="@+id/scrollView"
+                android:layout_centerHorizontal="true"
+                android:hint="Number of cells"
+                android:layout_gravity="center_horizontal"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:ems="10"
+                android:id="@+id/editTextBatteryEditBuyDate"
+                android:layout_gravity="center_horizontal"
+                android:clickable="true"
+                android:hint="Purchase date"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add NFC Tag"
+                android:id="@+id/buttonEditBatteryAddNFC"
+                android:layout_below="@+id/editTextBatteryEditCapacity"
+                android:layout_centerHorizontal="true"/>
+
+        </LinearLayout>
+    </ScrollView>
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonEditBatteryOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        fab:fab_icon="@mipmap/ic_ok"
+        fab:fab_colorNormal="@color/orange_tbe"
+        fab:fab_colorPressed="@color/orange_tbe"
+        android:layout_marginBottom="16dp"
+        android:fillViewport="false"/>
+</FrameLayout>

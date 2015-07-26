@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Easylipo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="login">Login</string>
+    <string name="loginFail">Failed to login</string>
+    <string name="loginSuccess">Welcome !</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="signout">Sign out</string>
+    <string name="password">Password</string>
+    <string name="my_batteries">My batteries</string>
+    <string name="signup">Sign up</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">E-mail</string>
+    <string name="username">Username</string>
+    <string name="signup_fail">Failed to create an account.</string>
+    <string name="signup_activity_title">Sign Up</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="title_activity_activity_create_battery">New battery</string>
+    <string name="failed_to_connect">Could not synchronize with the server</string>
+    <string name="title_activity_activity_battery_details">ActivityBatteryDetails</string>
+    <string name="title_activity_activity_battery_edit">ActivityBatteryEdit</string>
+    <string name="cancel">Cancel</string>
+    <string name="waiting_for_tag">Waiting for a tag...</string>
+</resources>
