@@ -11,7 +11,6 @@ import com.theboredengineers.easylipo.objects.NfcTag;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by benoit.hocquet on 05/01/2015.
@@ -132,9 +131,10 @@ public class BatterySQLite {
                 EasyLipoSQLite.COL_BAT_LOCAL_ID + " = " + Integer.toString(id),
                 null, null, null, null);
 
-        List<Battery> batteryList;
+        ArrayList<Battery> batteryList = new ArrayList<Battery>();
 
-        batteryList = cursorToBatteries(c);
+        batteryList = cursorToBatteries(c, batteryList);
+
         if (batteryList != null && batteryList.size() > 0)
             return batteryList.get(0);
         else
@@ -148,9 +148,9 @@ public class BatterySQLite {
                     EasyLipoSQLite.COL_BAT_SERVER_ID + " = \"" + id + "\"",
                     null, null, null, null);
 
-            List<Battery> batteryList;
+            ArrayList<Battery> batteryList = new ArrayList<Battery>();
 
-            batteryList = cursorToBatteries(c);
+            cursorToBatteries(c, batteryList);
             if (batteryList != null && batteryList.size() > 0)
                 return batteryList.get(0);
             else
@@ -185,12 +185,14 @@ public class BatterySQLite {
                 EasyLipoSQLite.COL_BAT_TAGID + " = " + "\"" + tagAsString + "\"",
                 null, null, null, null);
 
-        List<Battery> batteryList;
-        batteryList = cursorToBatteries(c);
+        ArrayList<Battery> batteryList = new ArrayList<Battery>();
+
+        batteryList = cursorToBatteries(c, batteryList);
         if (batteryList != null && batteryList.size() > 0)
             return batteryList.get(0);
         else
             return null;
+
     }
 
 
@@ -199,11 +201,11 @@ public class BatterySQLite {
      *
      * @return the found batteries
      */
-    public ArrayList<Battery> getBatteriesByCapacity() {
-        return getBatteries(null, null, null, null,
+    public void getBatteriesByCapacity(ArrayList<Battery> list) {
+        getBatteries(null, null, null, null,
                 EasyLipoSQLite.COL_BAT_NBS + ", "
                         + EasyLipoSQLite.COL_BAT_NBP + ", "
-                        + EasyLipoSQLite.COL_BAT_CAPACITY + " ASC");
+                        + EasyLipoSQLite.COL_BAT_CAPACITY + " ASC", list);
     }
 
 
@@ -212,8 +214,8 @@ public class BatterySQLite {
      *
      * @return the batteries
      */
-    public ArrayList<Battery> getBatteriesByName() {
-        return getBatteries(null, null, null, null, EasyLipoSQLite.COL_BAT_NAME + " ASC");
+    public void getBatteriesByName(ArrayList<Battery> list) {
+        getBatteries(null, null, null, null, EasyLipoSQLite.COL_BAT_NAME + " ASC", list);
     }
 
 
@@ -227,11 +229,11 @@ public class BatterySQLite {
      * @param orderBy       ORDERBY clause
      * @return
      */
-    private ArrayList<Battery> getBatteries(String selection,
-                                            String selectionArgs[],
-                                            String groupBy,
-                                            String having,
-                                            String orderBy) {
+    private void getBatteries(String selection,
+                              String selectionArgs[],
+                              String groupBy,
+                              String having,
+                              String orderBy, ArrayList<Battery> list) {
         Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
                 ColumnsForRequest,
                 selection, //selection
@@ -240,10 +242,8 @@ public class BatterySQLite {
                 having, //having
                 orderBy); //orderBy
 
-        ArrayList<Battery> batteryList;
-        batteryList = cursorToBatteries(c);
+        cursorToBatteries(c, list);
 
-        return batteryList;
     }
 
 
@@ -252,16 +252,14 @@ public class BatterySQLite {
      *
      * @return the list of batteries from database
      */
-    public ArrayList<Battery> getAllBatteries() {
+    public void getAllBatteries(ArrayList<Battery> batteryList) {
         Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
                 ColumnsForRequest,
                 null, //no condition
                 null, null, null, null);
 
-        ArrayList<Battery> batteryList;
-        batteryList = cursorToBatteries(c);
+        cursorToBatteries(c, batteryList);
 
-        return batteryList;
     }
 
     public boolean removeBattery(int id){
@@ -292,10 +290,11 @@ public class BatterySQLite {
      * @param c the cursor object, must be created with a query using ColumnsForRequest as columns.
      * @return the list of batteries
      */
-    private ArrayList<Battery> cursorToBatteries(Cursor c) {
+    private ArrayList<Battery> cursorToBatteries(Cursor c, ArrayList<Battery> batteries) {
         if (c == null)
             return null;
-        ArrayList<Battery> batteries = new ArrayList<>();
+//        ArrayList<Battery> batteries = new ArrayList<>();
+        batteries.clear();
         Battery battery;
         if (c.getCount() == 0)
             return batteries;

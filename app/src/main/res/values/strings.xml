@@ -27,4 +27,7 @@
     <string name="title_activity_activity_battery_edit">ActivityBatteryEdit</string>
     <string name="cancel">Cancel</string>
     <string name="waiting_for_tag">Waiting for a tag...</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_edit">Edit</string>
+    <string name="cycles">" cycles"</string>
 </resources>

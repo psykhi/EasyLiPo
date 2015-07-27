@@ -135,7 +135,7 @@ public class Battery implements Serializable {
 
     @Override
     public String toString() {
-        return brand+" "+model+" "+server_id+" "+nbS+"S";
+        return name + " " + getNbOfCycles();
 
     }
 

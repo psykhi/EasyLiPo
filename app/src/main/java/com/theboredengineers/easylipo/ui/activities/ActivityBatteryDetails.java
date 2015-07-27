@@ -6,7 +6,6 @@ import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -98,7 +97,8 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_edit) {
+            onEditButtonClicked(position);
             return true;
         }
 
@@ -114,6 +114,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
     public void onPageSelected(int position) {
         this.position = position;
         setTitle(batteryManager.getBatteryList().get(position).getName());
+
     }
 
     @Override
@@ -123,6 +124,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
 
     @Override
     public void onEditButtonClicked(int position) {
+
         Intent intent = new Intent(this,ActivityBatteryEdit.class);
         intent.putExtra("batteryListPosition",position);
         startActivity(intent);

@@ -24,7 +24,7 @@ import java.util.Locale;
 public class BatteryManager {
 
     private BatterySQLite sqlBat;
-    private ArrayList<Battery> list;
+    private static ArrayList<Battery> list;
     private static BatteryManager INSTANCE;
     private Context context = null;
     private ArrayList<BatteryListChangedListener> listeners;
@@ -63,7 +63,7 @@ public class BatteryManager {
      */
     private void refreshList() {
         //TODO sharedpreferences
-        list = sqlBat.getBatteriesByCapacity();
+        sqlBat.getBatteriesByCapacity(list);
         this.notifyListeners();
     }
 
@@ -137,7 +137,9 @@ public class BatteryManager {
      * @return the list of batteries
      */
     public ArrayList<Battery> getAllBatteries() {
-        return sqlBat.getAllBatteries();
+        //return sqlBat.getAllBatteries();
+        //TODO
+        return null;
     }
 
     public ArrayList<Battery> getBatteryList() {
@@ -162,7 +164,9 @@ public class BatteryManager {
      * @return the found batteries
      */
     private ArrayList<Battery> getBatteriesByCapacity() {
-        return sqlBat.getBatteriesByCapacity();
+        //return sqlBat.getBatteriesByCapacity();
+        //TODO
+        return null;
     }
 
     /**
@@ -171,7 +175,9 @@ public class BatteryManager {
      * @return the batteries
      */
     public ArrayList<Battery> getBatteriesByName() {
-        return sqlBat.getBatteriesByName();
+        //  return sqlBat.getBatteriesByName();
+        //TODO
+        return null;
     }
 
 

@@ -29,4 +29,15 @@ public class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(getTitle());
         }
     }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(getTitle());
+        }
+    }
 }
