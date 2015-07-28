@@ -1,5 +1,7 @@
 package com.theboredengineers.easylipo.ui.activities;
 
+import android.net.ConnectivityManager;
+import android.net.ConnectivityManager.NetworkCallback;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,4 +42,6 @@ public class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(getTitle());
         }
     }
+
+
 }

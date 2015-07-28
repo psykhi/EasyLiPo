@@ -9,13 +9,11 @@
                 tools:context="com.theboredengineers.easylipo.ui.activities.LoginActivity"
                 android:id="@+id/login">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:id="@+id/buttonLogin"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:background="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -24,7 +22,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
-        android:id="@+id/loginLayout">
+        android:id="@+id/loginLayout"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <EditText
             android:layout_width="match_parent"
@@ -41,16 +41,42 @@
             android:hint="@string/password"
             android:singleLine="true"
             android:ems="10"
-            android:id="@+id/login_pwd"/>
+            android:id="@+id/login_pwd"
+            android:nestedScrollingEnabled="false" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signup"
+                android:id="@+id/buttonLoginSignup"
+                android:layout_below="@+id/buttonLogin"
+                android:layout_centerHorizontal="true"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:id="@+id/buttonLogin"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="right" />
+        </LinearLayout>
 
     </LinearLayout>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup"
-        android:id="@+id/buttonLoginSignup"
-        android:layout_below="@+id/buttonLogin"
-        android:layout_centerHorizontal="true"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/app_name"
+        android:id="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -9,7 +9,7 @@ import com.theboredengineers.easylipo.network.NetworkEvent;
  */
 public interface NetworkEventListener {
     public void onLoginSuccess(Context context);
-    public void onLoginFail();
+    public void onLoginFail(String error);
 
     public void onEvent(int event);
 }

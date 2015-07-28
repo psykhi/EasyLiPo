@@ -108,6 +108,15 @@ public  class RemoteServer{
         return json;
     }
 
+    public static String getErrorMessageFromJSON(Object json) {
+        try {
+            return ((JSONObject)json).getString("message");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "Exception reading response from server";
+        }
+    }
+
     public class Routes
 
     {

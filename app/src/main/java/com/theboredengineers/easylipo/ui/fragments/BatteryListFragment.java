@@ -40,7 +40,7 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
     private SwipeRefreshLayout layout;
     FloatingActionButton addButton;
 
-    public static BatteryListFragment newInstance() {
+    public static BatteryListFragment newInstance(boolean sync) {
         BatteryListFragment fragment = new BatteryListFragment();
         return fragment;
     }
@@ -51,6 +51,7 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
      */
     public BatteryListFragment() {
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

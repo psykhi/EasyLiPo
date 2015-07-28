@@ -13,6 +13,7 @@ import com.crashlytics.android.Crashlytics;
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.network.NetworkSyncListener;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.ui.fragments.BatteryListFragment;
 import io.fabric.sdk.android.Fabric;
@@ -28,11 +29,11 @@ public class ActivityBatteryList extends SecuredActivity implements BatteryListF
 
         setContentView(R.layout.activity_battery_list);
         Bundle extras = getIntent().getExtras();
+        boolean synced = false;
         if (extras != null) {
-            Boolean synced = extras.getBoolean("synced");
-            if(synced)
-                NetworkManager.getInstance().networkSync(this,null);
+            synced = extras.getBoolean("synced");
         }
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

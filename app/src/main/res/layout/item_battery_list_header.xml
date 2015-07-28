@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="30dp"
               android:orientation="vertical"
-              android:background="@color/orange_tbe"
+              android:background="@color/background_floating_material_dark"
               android:paddingTop="0dp"
               android:paddingBottom="0dp">
 

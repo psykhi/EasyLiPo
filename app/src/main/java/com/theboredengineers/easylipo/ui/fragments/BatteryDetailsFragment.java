@@ -46,8 +46,6 @@ public class BatteryDetailsFragment extends BaseFragment {
         capacity = (EditText) v.findViewById(R.id.editTextDetailsCapacity);
 
 
-        fillUI();
-
         buttonAddCycle = (FloatingActionButton) v.findViewById(R.id.buttonBatteryDetailsAddCycle);
         buttonAddCycle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +64,12 @@ public class BatteryDetailsFragment extends BaseFragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        fillUI();
+    }
+
     private void fillUI() {
         brand.setText(battery.getBrand());
         model.setText(battery.getModel());
@@ -77,23 +81,7 @@ public class BatteryDetailsFragment extends BaseFragment {
         cyclesView.setText(cycles + " " + this.getString(R.string.cycles));
     }
 
-    public void animateTextView(int initialValue, int finalValue, final TextView textview) {
-        DecelerateInterpolator decelerateInterpolator = new DecelerateInterpolator(0.8f);
-        int start = Math.min(initialValue, finalValue);
-        int end = Math.max(initialValue, finalValue);
-        int difference = Math.abs(finalValue - initialValue);
-        Handler handler = new Handler();
-        for (int count = start; count <= end; count++) {
-            int time = Math.round(decelerateInterpolator.getInterpolation((((float) count) / difference)) * 100) * count;
-            final int finalCount = ((initialValue > finalValue) ? initialValue - count : count);
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    textview.setText(finalCount + "");
-                }
-            }, time);
-        }
-    }
+
     public static BatteryDetailsFragment newInstance(int position)
     {
         BatteryDetailsFragment ret = new BatteryDetailsFragment();
@@ -111,10 +99,15 @@ public class BatteryDetailsFragment extends BaseFragment {
             listener = (BatteryDetailsFragment.OnBatteryDetailsInteractionLister) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnBatteryDetailsInteractionLister");
         }
     }
     public interface OnBatteryDetailsInteractionLister {
         public void onEditButtonClicked(int position);
+    }
+
+    @Override
+    public void onBatteryListChanged() {
+        super.onBatteryListChanged();
     }
 }

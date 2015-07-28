@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.theboredengineers.easylipo.network.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,8 @@ public class AuthManager implements NetworkEventListener {
                 }
                 else
                 {
-                    listener.onLoginFail();
+                    String errorMessageFromJSON = RemoteServer.getErrorMessageFromJSON(json);
+                    listener.onLoginFail(errorMessageFromJSON);
                 }
             }
         });
@@ -95,7 +97,7 @@ public class AuthManager implements NetworkEventListener {
     }
 
     @Override
-    public void onLoginFail() {
+    public void onLoginFail(String error) {
 
     }
 

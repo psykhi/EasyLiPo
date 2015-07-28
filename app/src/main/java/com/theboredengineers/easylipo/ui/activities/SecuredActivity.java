@@ -55,7 +55,7 @@ public class SecuredActivity extends BaseActivity {
             }
 
             @Override
-            public void onLoginFail() {
+            public void onLoginFail(String error) {
 
             }
 

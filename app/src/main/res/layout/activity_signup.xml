@@ -16,7 +16,11 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp"
-        android:id="@+id/loginLayout">
+        android:id="@+id/loginLayout"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:outlineProvider="bounds"
+        android:baselineAligned="false">
 
         <EditText
             android:layout_width="match_parent"
@@ -65,15 +69,23 @@
             android:ems="10"
             android:id="@+id/signup_password"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/signup"
+            android:id="@+id/buttonSignup"
+            android:layout_below="@+id/loginLayout"
+            android:layout_centerHorizontal="true" />
+
     </LinearLayout>
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup"
-        android:id="@+id/buttonSignup"
-        android:layout_below="@+id/loginLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/signup_easylipo"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

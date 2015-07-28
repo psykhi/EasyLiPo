@@ -75,6 +75,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
     }
 
 
+
     @Override
     protected void onResume() {
         super.onResume();

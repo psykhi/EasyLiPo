@@ -87,7 +87,6 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.e("login task", "bye bye");
     }
 
     @Override
@@ -97,7 +96,6 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
             @Override
             public void onNetworkSyncEnded(Boolean success) {
                 progressDialog.dismiss();
-                //Toast.makeText(getApplicationContext(), getString(R.string.loginSuccess), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, ActivityBatteryList.class);
                 intent.putExtra("synced",true);
                 startActivity(intent);
@@ -108,9 +106,9 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     }
 
     @Override
-    public void onLoginFail() {
+    public void onLoginFail(String error) {
         progressDialog.hide();
-        Toast.makeText(getApplicationContext(),getString(R.string.loginFail),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
     }
 
     @Override
