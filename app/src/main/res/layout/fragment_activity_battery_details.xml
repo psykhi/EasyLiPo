@@ -13,8 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         fab:fab_icon="@mipmap/ic_plus_one"
-        fab:fab_colorNormal="@color/orange_tbe"
-        fab:fab_colorPressed="@color/orange_tbe"
         android:layout_marginBottom="16dp"/>
 
     <LinearLayout

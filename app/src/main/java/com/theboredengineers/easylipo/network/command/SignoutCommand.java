@@ -23,4 +23,10 @@ public class SignoutCommand extends NetworkCommand {
     public String getName() {
         return "Sign out";
     }
+
+    @Override
+    public void execute(NetworkCommandListener listener) {
+//        super.execute(listener);
+        listener.onNetworkTaskEnd(true, null);
+    }
 }

@@ -31,4 +31,5 @@
     <string name="action_edit">Edit</string>
     <string name="cycles">" cycles"</string>
     <string name="signup_easylipo">Sign up to EasyLipo</string>
+    <string name="authenticating">"Authenticating... "</string>
 </resources>

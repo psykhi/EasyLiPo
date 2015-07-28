@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.andexert.library.RippleView;
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.ui.fragments.BatteryListFragment;
@@ -35,14 +36,19 @@ public class AdapterBatteryList extends RecyclerView.Adapter<AdapterBatteryList.
 
     public class BatteryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // each data item is just a string in this case
-        public View mTextView;
         private Battery batt;
         private BatteryListFragment.OnBatteryListFragmentInteractionListener listener;
 
-        public BatteryViewHolder(View v, BatteryListFragment.OnBatteryListFragmentInteractionListener listener) {
+        public BatteryViewHolder(final View v, BatteryListFragment.OnBatteryListFragmentInteractionListener listener) {
             super(v);
-            v.setOnClickListener(this);
-            mTextView = v;
+            RippleView rippleView = (RippleView) v.findViewById(R.id.rippleview);
+            //rippleView.setOnClickListener(this);
+            rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+                @Override
+                public void onComplete(RippleView rippleView) {
+                    onClick(v);
+                }
+            });
             this.listener = listener;
         }
 

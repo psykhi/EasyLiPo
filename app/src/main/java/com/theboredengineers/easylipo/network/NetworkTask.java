@@ -64,8 +64,7 @@ public class NetworkTask extends AsyncTask<Object,Long,Integer>{
                 wr.close();
             }
 
-            Log.d("lol", connection.getResponseCode()+" lo");
-            Log.d("lol",connection.getResponseMessage());
+//            Log.d("lol",connection.getResponseMessage());
 
             ret = connection.getResponseCode();
             if(ret == 200)
@@ -91,7 +90,7 @@ public class NetworkTask extends AsyncTask<Object,Long,Integer>{
                     response.append('\r');
                 }
                 rd.close();
-                Log.d("Network command "+command.getName(), response.toString());
+                Log.d("Network command " + command.getName() + " response :", response.toString());
 
                 json =  new JSONTokener(response.toString()).nextValue();
 

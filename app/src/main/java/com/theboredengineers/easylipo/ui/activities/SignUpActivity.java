@@ -6,12 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.network.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.NetworkManager;
-import com.theboredengineers.easylipo.security.NetworkEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +25,7 @@ public class SignUpActivity extends BaseActivity implements NetworkCommandListen
     EditText firstNameEditText;
     EditText lastNameEditText;
     EditText emailEditText;
+    TextView loginTextView;
 
     EditText passwordEditText;
     ProgressDialog progressDialog;
@@ -34,12 +35,20 @@ public class SignUpActivity extends BaseActivity implements NetworkCommandListen
         progressDialog = new ProgressDialog(this);
 
         setContentView(R.layout.activity_signup);
-        loginButton = (Button) findViewById(R.id.buttonSignup);
+        loginButton = (Button) findViewById(R.id.buttonn_signup);
         usernameEditText = (EditText) findViewById(R.id.signup_username);
         firstNameEditText = (EditText) findViewById(R.id.signup_first_name);
         lastNameEditText = (EditText) findViewById(R.id.signup_last_name);
         emailEditText = (EditText) findViewById(R.id.signup_email);
         passwordEditText = (EditText) findViewById(R.id.signup_password);
+        loginTextView = (TextView) findViewById(R.id.textview_login);
+
+        loginTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

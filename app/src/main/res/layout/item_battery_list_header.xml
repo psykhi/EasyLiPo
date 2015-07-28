@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="30dp"
+              android:layout_height="48dp"
               android:orientation="vertical"
-              android:background="@color/background_floating_material_dark"
+              android:background="@color/primary"
               android:paddingTop="0dp"
-              android:paddingBottom="0dp">
+              android:paddingBottom="0dp"
+              android:paddingLeft="0dp">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView_item_battery_list_header"/>
+        android:id="@+id/textView_item_battery_list_header"
+        android:gravity="center_vertical"
+        android:textSize="14sp"
+        android:text="3S"/>
 </LinearLayout>

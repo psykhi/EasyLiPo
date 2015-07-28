@@ -1,14 +1,10 @@
 package com.theboredengineers.easylipo.network.server;
 
 
-import com.google.android.gms.games.request.Requests;
 import com.theboredengineers.easylipo.objects.Battery;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Created by Alex on 14/06/2015.
@@ -111,7 +107,7 @@ public  class RemoteServer{
     public static String getErrorMessageFromJSON(Object json) {
         try {
             return ((JSONObject)json).getString("message");
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return "Exception reading response from server";
         }

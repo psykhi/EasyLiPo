@@ -4,23 +4,23 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.network.NetworkManager;
 import com.theboredengineers.easylipo.network.NetworkSyncListener;
-import com.theboredengineers.easylipo.security.NetworkEventListener;
 import com.theboredengineers.easylipo.security.AuthManager;
+import com.theboredengineers.easylipo.security.NetworkEventListener;
 
 public class LoginActivity extends BaseActivity implements NetworkEventListener {
     Button loginButton;
-    Button signupButton;
+    TextView signupButton;
 
     EditText usernameEditText;
     EditText passwordEditText;
@@ -28,16 +28,17 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
 
         setContentView(R.layout.activity_login);
-        loginButton = (Button) findViewById(R.id.buttonLogin);
-        signupButton = (Button) findViewById(R.id.buttonLoginSignup);
+        loginButton = (Button) findViewById(R.id.button_login);
+        signupButton = (TextView) findViewById(R.id.textview_signup);
         usernameEditText = (EditText) findViewById(R.id.login_username);
-        passwordEditText = (EditText) findViewById(R.id.login_pwd);
+        passwordEditText = (EditText) findViewById(R.id.login_password);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loginButton.setEnabled(false);
                 attemptLogin();
             }
         });
@@ -52,13 +53,12 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     private void goToSignupActivity() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void attemptLogin() {
         AuthManager.getInstance().attemptLogin(usernameEditText.getText().toString()
                 , passwordEditText.getText().toString(), this,this);
-        progressDialog.setMessage("Signing in... ");
+        progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
     }
 
@@ -92,6 +92,7 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     @Override
     public void onLoginSuccess(Context context) {
         progressDialog.setMessage("Syncing data...");
+        loginButton.setEnabled(true);
         NetworkManager.getInstance().networkSync(this,new NetworkSyncListener() {
             @Override
             public void onNetworkSyncEnded(Boolean success) {
@@ -108,6 +109,7 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     @Override
     public void onLoginFail(String error) {
         progressDialog.hide();
+        loginButton.setEnabled(true);
         Toast.makeText(getApplicationContext(),error,Toast.LENGTH_SHORT).show();
     }
 

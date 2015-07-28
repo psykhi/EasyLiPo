@@ -92,8 +92,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         fab:fab_icon="@mipmap/ic_ok"
-        fab:fab_colorNormal="@color/orange_tbe"
-        fab:fab_colorPressed="@color/orange_tbe"
+        fab:fab_colorNormal="@color/primary"
+        fab:fab_colorPressed="@color/primary_dark"
         android:layout_marginBottom="16dp"
         android:fillViewport="false"/>
 </FrameLayout>

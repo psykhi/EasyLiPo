@@ -17,6 +17,7 @@ import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkManager;
 import com.theboredengineers.easylipo.network.NetworkSyncListener;
 import com.theboredengineers.easylipo.objects.Battery;
+import com.theboredengineers.easylipo.ui.DividerItemDecoration;
 import com.theboredengineers.easylipo.ui.activities.ActivityCreateBattery;
 import com.theboredengineers.easylipo.ui.adapters.AdapterBatteryList;
 import com.timehop.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
@@ -79,6 +80,9 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
                 adapterBatteryList = new AdapterBatteryList((OnBatteryListFragmentInteractionListener) getActivity(), 0, batteryList);
                 recyclerView.setAdapter(adapterBatteryList);
                 recyclerView.addItemDecoration(new StickyRecyclerHeadersDecoration(adapterBatteryList));
+                RecyclerView.ItemDecoration itemDecoration =
+                        new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL);
+                recyclerView.addItemDecoration(itemDecoration);
             }
 //TODO handle empty lists
             adapterBatteryList.notifyDataSetChanged();
@@ -163,7 +167,7 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
                 layout.setRefreshing(false);
                 if(!success)
                 {
-                    Toast.makeText(getActivity(),getString(R.string.failed_to_connect),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
                 }
             }
         });
