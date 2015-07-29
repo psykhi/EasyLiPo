@@ -1,13 +1,11 @@
 package com.theboredengineers.easylipo.ui.fragments;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -15,9 +13,6 @@ import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkManager;
 import com.theboredengineers.easylipo.objects.Battery;
-
-import java.text.DateFormat;
-import java.util.Calendar;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -84,8 +79,8 @@ public class BatteryEditFragment extends BaseFragment {
         battery.setBrand(brand.getText().toString());
         battery.setCapacity(Integer.parseInt(capacity.getText().toString()));
         battery.setNbS(Integer.parseInt(cells.getText().toString()));
-        BatteryManager.getInstance(getActivity()).insertOrUpdateBattery(battery);
-        NetworkManager.getInstance().updateBattery(battery);
+        BatteryManager.getInstance(getActivity()).updateBattery(battery);
+        NetworkManager.getInstance().updateBattery(getActivity(), battery);
         listener.onEdit(battery);
     }
 

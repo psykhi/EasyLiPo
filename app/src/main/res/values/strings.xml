@@ -20,7 +20,7 @@
     <string name="username">Username</string>
     <string name="signup_fail">Failed to create an account.</string>
     <string name="signup_activity_title">Sign Up</string>
-    <string name="unexpected_error">Unexpected error</string>
+    <string name="unexpected_error">Unexpected error. Retry later.</string>
     <string name="title_activity_activity_create_battery">New battery</string>
     <string name="failed_to_connect">Could not synchronize with the server</string>
     <string name="title_activity_activity_battery_details">ActivityBatteryDetails</string>

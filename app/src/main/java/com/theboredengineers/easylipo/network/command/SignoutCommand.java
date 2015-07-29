@@ -1,5 +1,7 @@
 package com.theboredengineers.easylipo.network.command;
 
+import android.content.Context;
+
 import com.theboredengineers.easylipo.network.NetworkCommand;
 import com.theboredengineers.easylipo.network.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
@@ -25,7 +27,7 @@ public class SignoutCommand extends NetworkCommand {
     }
 
     @Override
-    public void execute(NetworkCommandListener listener) {
+    public void execute(Context context, NetworkCommandListener listener) {
 //        super.execute(listener);
         listener.onNetworkTaskEnd(true, null);
     }

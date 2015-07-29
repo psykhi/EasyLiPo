@@ -1,6 +1,7 @@
 package com.theboredengineers.easylipo.main;
 
 import android.app.Application;
+
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.theboredengineers.easylipo.security.AuthManager;
@@ -23,7 +24,6 @@ public class EasyLiPo extends Application {
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);
 
-        sessionManager.setContext(this);
 
     }
 }

@@ -1,6 +1,8 @@
 package com.theboredengineers.easylipo.network;
 
-import com.theboredengineers.easylipo.network.command.NewBatteryCommand;
+import android.content.Context;
+
+import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 import java.util.ArrayList;
 
@@ -12,25 +14,27 @@ public class PendingCommands{
     private static ArrayList<NetworkCommand> commands = new ArrayList<NetworkCommand>();
 
 
-
-    public static void processAll(final NetworkSyncListener l)
+    public static void processAll(final Context context, final NetworkSyncListener l)
     {
         if (commands.size() != 0)
         {
-            commands.get(0).execute(new NetworkCommandListener() {
+            commands.get(0).execute(context, new NetworkCommandListener() {
                 @Override
                 public void onNetworkTaskEnd(Boolean success, Object json) {
                     if(success)
                     {
                         commands.remove(0);
-                        processAll(l);
+                        processAll(context, l);
+                    } else {
+                        l.onNetworkSyncEnded(false, RemoteServer.getErrorMessageFromJSON(json));
                     }
+
                 }
             });
         }
         else
         {
-            l.onNetworkSyncEnded(true);
+            l.onNetworkSyncEnded(true, null);
         }
     }
 

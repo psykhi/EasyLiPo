@@ -1,6 +1,9 @@
 package com.theboredengineers.easylipo.network;
 
+import android.content.Context;
 import android.util.Log;
+
+import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 import org.json.JSONObject;
 
@@ -28,11 +31,16 @@ public abstract class NetworkCommand {
         return commandListener;
     }
 
-    public void execute(NetworkCommandListener listener)
+    public void execute(Context context, NetworkCommandListener listener)
     {
+
         Log.d("Commands", "Executing command " + getName());
         this.commandListener = listener;
-        new NetworkTask().execute(this);
+        if (NetworkManager.isConnected(context)) {
+            new NetworkTask().execute(context, this);
+        } else {
+            listener.onNetworkTaskEnd(false, RemoteServer.formatErrorMessageJSON("No Internet connectivity."));
+        }
     }
 
 

@@ -113,6 +113,15 @@ public  class RemoteServer{
         }
     }
 
+    public static Object formatErrorMessageJSON(String error) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("message", error);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
     public class Routes
 
     {
@@ -123,6 +132,7 @@ public  class RemoteServer{
         public static final String SIGNIN = "auth/signin";
         public static final String NEW_BATTERY = "batteries";
         public static final String ADD_CYCLE = "batteries";
+        public static final String DELETE_BATTERY = "batteries";
 
     }
 }

@@ -1,22 +1,22 @@
 package com.theboredengineers.easylipo.network;
 
 
-import android.app.Activity;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.command.AddCycleCommand;
+import com.theboredengineers.easylipo.network.command.DeleteCommand;
 import com.theboredengineers.easylipo.network.command.GetBatteriesCommand;
 import com.theboredengineers.easylipo.network.command.NewBatteryCommand;
 import com.theboredengineers.easylipo.network.command.SigninCommand;
 import com.theboredengineers.easylipo.network.command.SignoutCommand;
 import com.theboredengineers.easylipo.network.command.SignupCommand;
 import com.theboredengineers.easylipo.network.command.UpdateBatteryCommand;
+import com.theboredengineers.easylipo.network.server.RemoteServer;
 import com.theboredengineers.easylipo.objects.Battery;
-import com.theboredengineers.easylipo.security.NetworkEventListener;
-import com.theboredengineers.easylipo.ui.activities.SignUpActivity;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -54,11 +54,11 @@ public class NetworkManager implements NetworkSyncListener{
             observers.add(listener);
         if(!syncing) {
             syncing = true;
-            PendingCommands.processAll(new NetworkSyncListener() {
+            PendingCommands.processAll(context, new NetworkSyncListener() {
                 @Override
-                public void onNetworkSyncEnded(Boolean success) {
+                public void onNetworkSyncEnded(Boolean success, String errorMessageFromJSON) {
                     if (success) {
-                        new GetBatteriesCommand().execute(new NetworkCommandListener() {
+                        new GetBatteriesCommand().execute(context, new NetworkCommandListener() {
                             @Override
                             public void onNetworkTaskEnd(Boolean success, Object json) {
                                 if(success) {
@@ -67,13 +67,13 @@ public class NetworkManager implements NetworkSyncListener{
                                     // TODO signal to all observers...
 
                                     if (listener != null)
-                                        listener.onNetworkSyncEnded(success);
+                                        listener.onNetworkSyncEnded(true, null);
                                 }
                                 else
                                 {
                                     syncing = false;
                                     if (listener != null)
-                                        listener.onNetworkSyncEnded(success);
+                                        listener.onNetworkSyncEnded(success, RemoteServer.getErrorMessageFromJSON(json));
                                 }
                             }
                         });
@@ -82,7 +82,7 @@ public class NetworkManager implements NetworkSyncListener{
                     {
                         syncing = false;
                         if (listener != null)
-                            listener.onNetworkSyncEnded(success);
+                            listener.onNetworkSyncEnded(success, errorMessageFromJSON);
                     }
                 }
             });
@@ -90,28 +90,28 @@ public class NetworkManager implements NetworkSyncListener{
     }
 
 
-    public void attemptLogin(String username, String pwd, final NetworkCommandListener listener) {
-        new SigninCommand(username,pwd).execute(listener);
+    public void attemptLogin(Context context, String username, String pwd, final NetworkCommandListener listener) {
+        new SigninCommand(context, username, pwd).execute(context, listener);
     }
 
     @Override
-    public void onNetworkSyncEnded(Boolean success)
+    public void onNetworkSyncEnded(Boolean success, String errorMessageFromJSON)
     {
         syncing = false;
     }
 
     public void signup(String firstName, String lastName, String username,String email, String pwd, Context context, NetworkCommandListener activity) {
-        new SignupCommand(firstName,lastName,email,username,pwd).execute(activity);
+        new SignupCommand(firstName, lastName, email, username, pwd).execute(context, activity);
     }
 
-    public void signout(NetworkCommandListener l) {
-        new SignoutCommand().execute(l);
+    public void signout(Context context, NetworkCommandListener l) {
+        new SignoutCommand().execute(context, l);
     }
 
-    public void addNewBattery(Battery b) {
+    public void addNewBattery(Context context, Battery b) {
         final NewBatteryCommand command  = new NewBatteryCommand(b);
 
-        command.execute(new NetworkCommandListener() {
+        command.execute(context, new NetworkCommandListener() {
             @Override
             public void onNetworkTaskEnd(Boolean success, Object json) {
                 if (success) {
@@ -125,9 +125,9 @@ public class NetworkManager implements NetworkSyncListener{
         });
     }
 
-    public void addCycle(Battery battery) {
+    public void addCycle(Context context, Battery battery) {
         final AddCycleCommand command = new AddCycleCommand(battery.getServer_id());
-        command.execute(new NetworkCommandListener() {
+        command.execute(context, new NetworkCommandListener() {
             @Override
             public void onNetworkTaskEnd(Boolean success, Object json) {
                 if (success) {
@@ -140,9 +140,9 @@ public class NetworkManager implements NetworkSyncListener{
         });
     }
 
-    public void updateBattery(Battery battery) {
+    public void updateBattery(Context context, Battery battery) {
         final UpdateBatteryCommand command = new UpdateBatteryCommand(battery);
-        command.execute(new NetworkCommandListener() {
+        command.execute(context, new NetworkCommandListener() {
             @Override
             public void onNetworkTaskEnd(Boolean success, Object json) {
                 if (success) {
@@ -155,4 +155,27 @@ public class NetworkManager implements NetworkSyncListener{
         });
 
     }
+
+    public void removeBattery(Context context, String serverId) {
+        final DeleteCommand command = new DeleteCommand(serverId);
+        command.execute(context, new NetworkCommandListener() {
+            @Override
+            public void onNetworkTaskEnd(Boolean success, Object json) {
+                if (success) {
+                    Log.d("battery", "OK");
+                } else {
+                    PendingCommands.add(command);
+                    Log.e("battery", "failed to delete battery");
+                }
+            }
+        });
+    }
+
+    public static Boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+    }
+
+
 }

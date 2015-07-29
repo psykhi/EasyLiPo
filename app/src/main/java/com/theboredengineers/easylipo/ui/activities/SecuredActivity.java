@@ -4,8 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.theboredengineers.easylipo.interfaces.BatteryListChangedListener;
+import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkEvent;
 import com.theboredengineers.easylipo.security.AuthManager;
 import com.theboredengineers.easylipo.security.NetworkEventListener;
@@ -13,7 +14,7 @@ import com.theboredengineers.easylipo.security.NetworkEventListener;
 /**
  * Created by Alex on 14/06/2015.
  */
-public class SecuredActivity extends BaseActivity {
+public class SecuredActivity extends BaseActivity implements BatteryListChangedListener {
 
     private ProgressDialog signoutDialog;
 
@@ -21,21 +22,21 @@ public class SecuredActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         signoutDialog = new ProgressDialog(this);
-        AuthManager.getInstance().setContext(this);
-        if (!AuthManager.getInstance().isLoggedIn()) {
+        if (!AuthManager.getInstance().isLoggedIn(this)) {
             redirectToLogin();
-            Log.d("Secured activity","Redirecting to login");
-        }
-        else
-        {
-            Log.d("Secured activity","Logged in");
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        BatteryManager.getInstance(this).addListener(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BatteryManager.getInstance(this).removeListener(this);
     }
 
     private void redirectToLogin() {
@@ -48,7 +49,7 @@ public class SecuredActivity extends BaseActivity {
     {
         signoutDialog.setMessage("Signing out...");
         signoutDialog.show();
-        AuthManager.getInstance().signOut(new NetworkEventListener() {
+        AuthManager.getInstance().signOut(this, new NetworkEventListener() {
             @Override
             public void onLoginSuccess(Context context) {
 
@@ -68,5 +69,10 @@ public class SecuredActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBatteryListChanged() {
+
     }
 }

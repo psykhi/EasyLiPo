@@ -3,7 +3,9 @@ package com.theboredengineers.easylipo.ui.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,7 +15,6 @@ import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.network.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.NetworkManager;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -32,7 +33,7 @@ public class SignUpActivity extends BaseActivity implements NetworkCommandListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
 
         setContentView(R.layout.activity_signup);
         loginButton = (Button) findViewById(R.id.buttonn_signup);
@@ -55,9 +56,19 @@ public class SignUpActivity extends BaseActivity implements NetworkCommandListen
                 createAccount();
             }
         });
+        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE)
+                    createAccount();
+                return false;
+            }
+        });
     }
 
     private void createAccount() {
+        progressDialog.setMessage("Signing up...");
+        progressDialog.show();
         NetworkManager.getInstance().signup(
                 firstNameEditText.getText().toString(),
                 lastNameEditText.getText().toString(),
@@ -72,7 +83,7 @@ public class SignUpActivity extends BaseActivity implements NetworkCommandListen
 
     @Override
     public void onNetworkTaskEnd(Boolean success, Object json)  {
-
+        progressDialog.dismiss();
         if(success)
         {
             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
@@ -82,11 +93,10 @@ public class SignUpActivity extends BaseActivity implements NetworkCommandListen
         else
         {
             JSONObject error;
-            error = (JSONObject) json;
-
             try {
+                error = (JSONObject) json;
                 Toast.makeText(this,error.getString("message"),Toast.LENGTH_SHORT).show();
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 Toast.makeText(this,getString(R.string.unexpected_error),Toast.LENGTH_SHORT).show();
             }
         }

@@ -102,7 +102,7 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
 
         for(i = 0;i<battery_list.size();i++)
         {
-            batteryManager.insertOrUpdateBattery(battery_list.get(i));
+            batteryManager.insertBattery(battery_list.get(i));
         }
     }
 
@@ -163,11 +163,11 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
     public void onRefresh() {
         NetworkManager.getInstance().networkSync(getActivity(),new NetworkSyncListener() {
             @Override
-            public void onNetworkSyncEnded(Boolean success) {
+            public void onNetworkSyncEnded(Boolean success, String errorMessageFromJSON) {
                 layout.setRefreshing(false);
                 if(!success)
                 {
-                    Toast.makeText(getActivity(), getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), errorMessageFromJSON, Toast.LENGTH_LONG).show();
                 }
             }
         });

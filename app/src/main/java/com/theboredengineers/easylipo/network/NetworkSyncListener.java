@@ -5,6 +5,6 @@ package com.theboredengineers.easylipo.network;
  */
 public interface NetworkSyncListener {
 
-    public void onNetworkSyncEnded(Boolean success);
+    public void onNetworkSyncEnded(Boolean success, String errorMessageFromJSON);
 
 }

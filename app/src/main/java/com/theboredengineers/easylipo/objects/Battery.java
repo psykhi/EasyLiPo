@@ -135,7 +135,7 @@ public class Battery implements Serializable {
 
     @Override
     public String toString() {
-        return name + " " + getNbOfCycles();
+        return name + " Local " + getId() + " server " + getServer_id();
 
     }
 
@@ -305,10 +305,16 @@ public class Battery implements Serializable {
             return false;
         else
         {
-            if (((Battery) o).getServer_id().equals(getServer_id()))
-                return true;
-            else
-                return false;
+            if (!isLocal()) {
+                if (((Battery) o).getServer_id().equals(getServer_id()))
+                    return true;
+                else
+                    return false;
+            }
+            else {
+                return (((Battery) o).getId() == getId());
+            }
+
         }
     }
 
@@ -319,4 +325,5 @@ public class Battery implements Serializable {
     public void setServer_id(String server_id) {
         this.server_id = server_id;
     }
+
 }

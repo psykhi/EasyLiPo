@@ -2,20 +2,16 @@ package com.theboredengineers.easylipo.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkManager;
-import com.theboredengineers.easylipo.network.NetworkSyncListener;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.ui.fragments.BatteryListFragment;
+
 import io.fabric.sdk.android.Fabric;
 
 
@@ -34,13 +30,14 @@ public class ActivityBatteryList extends SecuredActivity implements BatteryListF
             synced = extras.getBoolean("synced");
         }
 
+        if (!synced)
+            NetworkManager.getInstance().networkSync(this, null);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.battery_list, new BatteryListFragment())
                     .commit();
         }
-
     }
 
     @Override

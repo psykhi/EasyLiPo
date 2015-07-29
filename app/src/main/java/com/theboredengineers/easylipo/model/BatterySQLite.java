@@ -51,7 +51,7 @@ public class BatterySQLite {
      * @param battery the battery to be inserted (its id will be modified if succeeded).
      * @return -1 if failed, the battery id if succeeded.
      */
-    public int insertBattery(Battery battery) {
+    public int updateBattery(Battery battery) {
         int id;
         db = sql.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -88,16 +88,42 @@ public class BatterySQLite {
             id =temp.getId();
         }
         else
-        if (battery.getId() == -1) {
-            id = (int) db.insert(EasyLipoSQLite.TABLE_BATTERIES, "null", values);
-            battery = getBatteryById(id);
-            Log.d("battery", battery.toString());
-            battery.setID(id);
-        } else
             db.update(EasyLipoSQLite.TABLE_BATTERIES, values, EasyLipoSQLite.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
         return id;
     }
 
+    public int insertBattery(Battery battery) {
+        int id;
+        db = sql.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        // if(db.isOpen())
+        //   db.close();
+        //db = sql.getWritableDatabase();
+        NfcTag tag = battery.getTagID();
+        values.put(EasyLipoSQLite.COL_BAT_SERVER_ID, battery.getServer_id());
+        values.put(EasyLipoSQLite.COL_BAT_NAME, battery.getName());
+        values.put(EasyLipoSQLite.COL_BAT_BRAND, battery.getBrand());
+        values.put(EasyLipoSQLite.COL_BAT_MODEL, battery.getModel());
+        values.put(EasyLipoSQLite.COL_BAT_CAPACITY, battery.getCapacity());
+        values.put(EasyLipoSQLite.COL_BAT_CHARGERATE, battery.getChargeRate());
+        values.put(EasyLipoSQLite.COL_BAT_DISCHARGERATE, battery.getDischargeRate());
+        if (tag != null)
+            values.put(EasyLipoSQLite.COL_BAT_TAGID, tag.toString());
+        values.put(EasyLipoSQLite.COL_BAT_RATING, battery.getRating());
+        values.put(EasyLipoSQLite.COL_BAT_NBS, battery.getNbS());
+        values.put(EasyLipoSQLite.COL_BAT_NBP, battery.getNbP());
+
+        int timeOfPurchase;
+        if (battery.getPurchaseDate() != null)
+            timeOfPurchase = (int) battery.getPurchaseDate().getTime();
+        else
+            timeOfPurchase = -1;
+        values.put(EasyLipoSQLite.COL_BAT_PURCHASEDATE, timeOfPurchase);
+        values.put(EasyLipoSQLite.COL_BAT_NBOFCYCLES, battery.getNbOfCycles());
+        id = (int) db.insert(EasyLipoSQLite.TABLE_BATTERIES, "null", values);
+        battery.setID(id);
+        return id;
+    }
 
     /**
      * Use exclusively this array as columns for query that will be treated

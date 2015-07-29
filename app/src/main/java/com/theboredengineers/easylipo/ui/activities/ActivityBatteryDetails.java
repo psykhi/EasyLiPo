@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
+import com.theboredengineers.easylipo.network.NetworkManager;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.objects.NfcTag;
 import com.theboredengineers.easylipo.ui.adapters.AdapterBatteryDetailsViewPager;
@@ -23,7 +24,6 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
         BatteryDetailsFragment.OnBatteryDetailsInteractionLister{
 
 
-    private Battery batt;
     private int position;
     private BatteryManager batteryManager;
     private ArrayList<Battery> batteryList;
@@ -75,6 +75,10 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
     }
 
 
+    @Override
+    public void onBatteryListChanged() {
+        adapterBatteryDetailsViewPager.notifyDataSetChanged();
+    }
 
     @Override
     protected void onResume() {
@@ -101,9 +105,23 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
         if (id == R.id.action_edit) {
             onEditButtonClicked(position);
             return true;
+        } else if (id == R.id.action_delete) {
+            onDeleteButtonClicked(position);
+            return true;
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onDeleteButtonClicked(int position) {
+        Battery toRemove = batteryList.get(position);
+        String serverId = toRemove.getServer_id();
+        Boolean isLocal = toRemove.isLocal();
+        BatteryManager.getInstance(this).removeBattery(toRemove);
+        if (!isLocal)
+            NetworkManager.getInstance().removeBattery(this, serverId);
+        finish();
     }
 
     @Override
@@ -130,4 +148,5 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
         intent.putExtra("batteryListPosition",position);
         startActivity(intent);
     }
+
 }

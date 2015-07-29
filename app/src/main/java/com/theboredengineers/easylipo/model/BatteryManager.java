@@ -1,6 +1,8 @@
 package com.theboredengineers.easylipo.model;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.theboredengineers.easylipo.interfaces.BatteryListChangedListener;
@@ -14,7 +16,10 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -54,9 +59,15 @@ public class BatteryManager {
 
     private void notifyListeners()
     {
-        for (int i = 0; i < listeners.size() ; i++) {
-            listeners.get(i).onBatteryListChanged();
-        }
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < listeners.size(); i++) {
+                    listeners.get(i).onBatteryListChanged();
+                }
+            }
+        });
+
     }
     /**
      * Refreshes the battery list with the current batteries
@@ -64,6 +75,12 @@ public class BatteryManager {
     private void refreshList() {
         //TODO sharedpreferences
         sqlBat.getBatteriesByCapacity(list);
+        Iterator<Battery> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            Battery batt = iterator.next();
+            Log.d("List", batt.toString());
+        }
+
         this.notifyListeners();
     }
 
@@ -87,17 +104,25 @@ public class BatteryManager {
      * @param battery battery to be inserted (if succeeded its id will be changed)
      * @return the id of the inserted battery, -1 if failed.
      */
-    public int insertOrUpdateBattery(Battery battery) {
-        Log.d("Insert", battery.toString());
+    public int insertBattery(Battery battery) {
+        Log.d("Battery", "inserting " + battery.toString());
+        list.add(battery);
         int ret = sqlBat.insertBattery(battery);
-        refreshList();
+        sortBatteries();
+        return ret;
+    }
+
+    public int updateBattery(Battery battery) {
+        Log.d("Battery", "updating " + battery.toString());
+        int ret = sqlBat.updateBattery(battery);
+        sortBatteries();
         return ret;
     }
 
     public Boolean addCycle(Battery battery)
     {
         battery.setNbOfCycles(battery.getNbOfCycles() + 1);
-        if(insertOrUpdateBattery(battery)!= -1)
+        if (updateBattery(battery) != -1)
             return true;
         else
             return false;
@@ -187,6 +212,7 @@ public class BatteryManager {
      * @return true if a battery has been removed, else otherwise.
      */
     public boolean removeBattery(Battery bat) {
+        list.remove(bat);
         boolean returnCode =  removeBattery(bat.getId());
         if(returnCode)
             bat.setID(-1); // The battery is not in the system anymore
@@ -199,10 +225,9 @@ public class BatteryManager {
      * @param id
      * @return
      */
-    public boolean removeBattery(int id) {
+    private boolean removeBattery(int id) {
         boolean returnCode =  sqlBat.removeBattery(id);
-        if(returnCode)
-            refreshList();
+
         return returnCode;
     }
 
@@ -221,27 +246,117 @@ public class BatteryManager {
         INSTANCE = null;
     }
 
-    public void setBatteries(Object json) {
+    private ArrayList<Battery> getListFromJSON(Object json) {
+        ArrayList<Battery> newList = new ArrayList<Battery>();
 
-        removeAllBatteries();
-        if (json instanceof JSONObject)
-        {
 
-        }
-        else if (json instanceof JSONArray)
-        {
+        if (json instanceof JSONObject) {
+            return null;
+        } else if (json instanceof JSONArray) {
             JSONArray array = (JSONArray) json;
 
             for (int i = 0; i < array.length(); i++) {
                 try {
-                    addBatteryFromJSONOBject(array.getJSONObject(i));
+                    newList.add(getBatteryFromJSON(array.getJSONObject(i)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
+        return newList;
     }
 
+    /**
+     * @param json
+     * @brief Merges the server's list with ours
+     */
+    public void setBatteries(Object json) {
+        ArrayList<Battery> serverList = getListFromJSON(json);
+        ArrayList<Battery> toRe = new ArrayList<Battery>();
+        if (serverList != null) {
+
+            // Now we have the new list. We'll go through the "old" local list and see the changes
+            //with the new list
+            Iterator iterator = list.iterator();
+            while (iterator.hasNext()) {
+                Battery old = (Battery) iterator.next();
+
+                // First we remove the batteries missing from the server
+                if (!serverList.contains(old)) {
+                    // The local battery has been deleted :( RIP
+                    Log.d("DELETE", "REP " + old);
+                    removeBattery(old.getId());
+                    iterator.remove();
+
+                    //TODO should we start over here since the order has changed ??
+                }
+            }
+            // Then we can safely replace our local batteries with the ones from the server
+            Iterator<Battery> updateIterator = serverList.iterator();
+            ArrayList<Battery> updateList = new ArrayList<Battery>();
+            ArrayList<Battery> insertList = new ArrayList<Battery>();
+            while (updateIterator.hasNext()) {
+                Battery serverBattery = (Battery) updateIterator.next();
+                int index = list.indexOf(serverBattery);
+                if (index != -1) {
+                    // We replace the element in the list :o
+                    serverBattery.setID(list.get(index).getId());
+                    list.remove(index);
+                    list.add(index, serverBattery);
+                    // We don't forget to update the DB
+                    updateList.add(serverBattery);
+                } else {
+                    //It's a new battery
+                    insertList.add(serverBattery);
+                }
+            }
+            new ASyncTaskUpdateDB().execute(context, updateList, insertList);
+
+        }
+        sortBatteries();
+    }
+
+    public void sortBatteries() {
+        Collections.sort(list, new Comparator<Battery>() {
+            @Override
+            public int compare(Battery battery, Battery t1) {
+                int cellsBatt = battery.getNbS();
+                int cellsT1 = t1.getNbS();
+
+                if (cellsBatt < cellsT1)
+                    return -1;
+                else if (cellsBatt == cellsT1)
+                    return 0;
+                else
+                    return 1;
+            }
+        });
+        notifyListeners();
+    }
+
+    public static Battery getBatteryFromJSON(JSONObject jsonObject) {
+        Battery batt = new Battery();
+        String name = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            Date date = format.parse(jsonObject.getString("bought"));
+            name = jsonObject.getString("name");
+
+            batt.setName(name);
+            batt.setPurchaseDate(date);
+            batt.setServer_id(jsonObject.getString("_id"));
+            batt.setNbOfCycles(jsonObject.getInt("cycles"));
+            batt.setBrand(jsonObject.getString("brand"));
+            batt.setModel(jsonObject.getString("model"));
+            batt.setNbS(jsonObject.getInt("cells"));
+            batt.setCapacity(jsonObject.getInt("capacity"));
+
+        } catch (JSONException | ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return batt;
+    }
     private void addBatteryFromJSONOBject(JSONObject jsonObject) {
         String name = null;
         try {
@@ -257,7 +372,7 @@ public class BatteryManager {
             batt.setModel(jsonObject.getString("model"));
             batt.setNbS(jsonObject.getInt("cells"));
             batt.setCapacity(jsonObject.getInt("capacity"));
-            this.insertOrUpdateBattery(batt);
+            this.insertBattery(batt);
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }

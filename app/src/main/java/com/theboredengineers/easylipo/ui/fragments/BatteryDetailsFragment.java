@@ -2,11 +2,10 @@ package com.theboredengineers.easylipo.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -55,7 +54,7 @@ public class BatteryDetailsFragment extends BaseFragment {
                 BatteryManager.getInstance(getActivity()).addCycle(battery);
                 setCycleCount(battery.getNbOfCycles());
                 if (!battery.isLocal()) {
-                    NetworkManager.getInstance().addCycle(battery);
+                    NetworkManager.getInstance().addCycle(getActivity(), battery);
                 }
             }
         });
@@ -71,11 +70,13 @@ public class BatteryDetailsFragment extends BaseFragment {
     }
 
     private void fillUI() {
+        Log.d("Details", battery.toString());
         brand.setText(battery.getBrand());
         model.setText(battery.getModel());
         capacity.setText(battery.getCapacity() + " mAh");
         this.setCycleCount(battery.getNbOfCycles());
     }
+
 
     private void setCycleCount(int cycles) {
         cyclesView.setText(cycles + " " + this.getString(R.string.cycles));
@@ -109,5 +110,6 @@ public class BatteryDetailsFragment extends BaseFragment {
     @Override
     public void onBatteryListChanged() {
         super.onBatteryListChanged();
+
     }
 }

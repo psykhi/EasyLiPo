@@ -99,8 +99,8 @@
         <TextView
             android:id="@+id/textview_login"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="22dp"
+            android:layout_height="36dp"
+            android:layout_marginBottom="16dp"
             android:text="Already a member? Login"
             android:gravity="center"
             android:textSize="16dip"/>

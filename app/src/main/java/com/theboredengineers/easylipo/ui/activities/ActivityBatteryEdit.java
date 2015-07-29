@@ -1,30 +1,16 @@
 package com.theboredengineers.easylipo.ui.activities;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
-import android.nfc.tech.NfcA;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.objects.Battery;
-import com.theboredengineers.easylipo.objects.NfcPendingIntentHelper;
 import com.theboredengineers.easylipo.objects.NfcTag;
 import com.theboredengineers.easylipo.ui.fragments.BatteryEditFragment;
-import com.theboredengineers.easylipo.ui.fragments.BatteryListFragment;
 
 public class ActivityBatteryEdit extends NfcActivity implements BatteryEditFragment.OnBatteryEditFragmentInteractionListener{
 
@@ -84,7 +70,7 @@ public class ActivityBatteryEdit extends NfcActivity implements BatteryEditFragm
         NfcTag.formatNdef(ndef, battery.getServer_id(), true);
 
         battery.setTagID(NfcTag.BuildFromTag(tag));
-        BatteryManager.getInstance(this).insertOrUpdateBattery(battery);
+        BatteryManager.getInstance(this).insertBattery(battery);
     }
 
     @Override

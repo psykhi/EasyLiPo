@@ -58,12 +58,14 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
+            android:imeActionId="42"
+            android:imeActionLabel="enter"
             android:text="Login"/>
 
         <TextView
             android:id="@+id/textview_signup"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="36dp"
             android:layout_marginBottom="24dp"
             android:text="No account yet? Create one"
             android:gravity="center"

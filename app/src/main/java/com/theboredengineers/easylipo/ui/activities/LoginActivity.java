@@ -4,9 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,8 +40,16 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginButton.setEnabled(false);
+
                 attemptLogin();
+            }
+        });
+        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE)
+                    attemptLogin();
+                return false;
             }
         });
         signupButton.setOnClickListener(new View.OnClickListener() {
@@ -56,10 +66,12 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
     }
 
     private void attemptLogin() {
-        AuthManager.getInstance().attemptLogin(usernameEditText.getText().toString()
-                , passwordEditText.getText().toString(), this,this);
+        loginButton.setEnabled(false);
         progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
+        AuthManager.getInstance().attemptLogin(usernameEditText.getText().toString()
+                , passwordEditText.getText().toString(), this, this);
+
     }
 
     @Override
@@ -95,7 +107,7 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
         loginButton.setEnabled(true);
         NetworkManager.getInstance().networkSync(this,new NetworkSyncListener() {
             @Override
-            public void onNetworkSyncEnded(Boolean success) {
+            public void onNetworkSyncEnded(Boolean success, String errorMessageFromJSON) {
                 progressDialog.dismiss();
                 Intent intent = new Intent(LoginActivity.this, ActivityBatteryList.class);
                 intent.putExtra("synced",true);

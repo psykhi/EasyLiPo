@@ -1,5 +1,7 @@
 package com.theboredengineers.easylipo.network.command;
 
+import android.content.Context;
+
 import com.theboredengineers.easylipo.network.NetworkCommand;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 import com.theboredengineers.easylipo.security.AuthManager;
@@ -12,10 +14,12 @@ import org.json.JSONObject;
 public class SigninCommand extends NetworkCommand {
     private final String username;
     private final String pwd;
+    private final Context context;
 
-    public SigninCommand(String username, String pwd) {
+    public SigninCommand(Context context, String username, String pwd) {
         this.username = username;
         this.pwd = pwd;
+        this.context = context;
     }
 
     @Override
@@ -40,6 +44,6 @@ public class SigninCommand extends NetworkCommand {
 
     @Override
     public void onSessionIDCookie(String cookie) {
-        AuthManager.getInstance().setSessionId(cookie);
+        AuthManager.getInstance().setSessionId(context, cookie);
     }
 }

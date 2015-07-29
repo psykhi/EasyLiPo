@@ -1,5 +1,6 @@
 package com.theboredengineers.easylipo.network;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -32,7 +33,8 @@ public class NetworkTask extends AsyncTask<Object,Long,Integer>{
     protected Integer doInBackground(Object... params) {
         URL url;
         HttpURLConnection connection = null;
-        command = (NetworkCommand) params[0];
+        Context context = (Context) params[0];
+        command = (NetworkCommand) params[1];
         method = command.getMethod();
         Integer ret = 404;
         try {
@@ -48,12 +50,12 @@ public class NetworkTask extends AsyncTask<Object,Long,Integer>{
                         "application/json");
 
             connection.setRequestProperty("Cookie",
-                    AuthManager.getInstance().getSessionId());
+                    AuthManager.getInstance().getSessionId(context));
 
             connection.setUseCaches(false);
             connection.setDoInput(true);
 
-            if(method.equals("GET"))
+            if (method.equals("GET") || method.equals("DELETE"))
                 connection.setDoOutput(false);
             else {
                 connection.setDoOutput(true);

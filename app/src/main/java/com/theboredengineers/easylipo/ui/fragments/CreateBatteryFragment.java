@@ -1,7 +1,7 @@
 package com.theboredengineers.easylipo.ui.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +35,9 @@ public class CreateBatteryFragment extends Fragment {
                 b.setModel("lol");
                 b.setName("KOUKOU");
                 b.setNbS(3);
-                if(BatteryManager.getInstance(getActivity()).insertOrUpdateBattery(b) != -1)
+                if (BatteryManager.getInstance(getActivity()).insertBattery(b) != -1)
                 {
-                    NetworkManager.getInstance().addNewBattery(b);
+                    NetworkManager.getInstance().addNewBattery(getActivity(), b);
                 }
                 else
                 {
