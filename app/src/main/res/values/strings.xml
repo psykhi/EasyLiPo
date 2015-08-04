@@ -32,4 +32,12 @@
     <string name="cycles">" cycles"</string>
     <string name="signup_easylipo">Sign up to EasyLipo</string>
     <string name="authenticating">"Authenticating... "</string>
+    <string name="new_battery">New Battery</string>
+    <string name="next">Next</string>
+    <string name="name">Name</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="discharge_rate_in_c">Discharge rate in C</string>
+    <string name="capacity_in_mah">Capacity in mAh</string>
+    <string name="acquisition_date">Acquisition date</string>
 </resources>

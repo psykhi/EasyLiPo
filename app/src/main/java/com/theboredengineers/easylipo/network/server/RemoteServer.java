@@ -6,6 +6,11 @@ import com.theboredengineers.easylipo.objects.Battery;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Created by Alex on 14/06/2015.
  */
@@ -15,6 +20,60 @@ public  class RemoteServer{
     public static String getUrl()
     {
         return url+"/";
+    }
+
+    public static JSONObject formatNewBatteryParameters(String brand, String model, int cells,
+                                                        int capacity, int cycles,
+                                                        int dischargeRate, int chargeRate,
+                                                        Date purchaseDate, boolean charged, String name) {
+        JSONObject json = new JSONObject();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+
+
+        try {
+            json.put("brand", brand);
+            json.put("bought", format.format(purchaseDate));
+            json.put("charged", charged);
+            json.put("brand", brand);
+            json.put("discharge", dischargeRate);
+            json.put("charge", chargeRate);
+            json.put("model", model);
+            json.put("cells", cells);
+            json.put("capacity", capacity);
+            json.put("cycles", cycles);
+            json.put("name", name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
+
+    public static Battery getBatteryFromJSON(JSONObject jsonObject) {
+        Battery batt = new Battery();
+        String name = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            Date date = format.parse(jsonObject.getString("bought"));
+            name = jsonObject.getString("name");
+
+            batt.setName(name);
+            batt.setPurchaseDate(date);
+            batt.setServer_id(jsonObject.getString("_id"));
+            batt.setNbOfCycles(jsonObject.getInt("cycles"));
+            batt.setChargeRate(jsonObject.getInt("charge"));
+            batt.setDischargeRate(jsonObject.getInt("discharge"));
+            batt.setCharged(jsonObject.getBoolean("charged"));
+            batt.setBrand(jsonObject.getString("brand"));
+            batt.setModel(jsonObject.getString("model"));
+            batt.setNbS(jsonObject.getInt("cells"));
+            batt.setCapacity(jsonObject.getInt("capacity"));
+
+        } catch (JSONException | ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return batt;
     }
 
     public static JSONObject formatSigninParameters(String user, String pwd) {
@@ -56,23 +115,6 @@ public  class RemoteServer{
         return json;
     }
 
-    public static JSONObject formatNewBatteryParameters(String brand, String model,int cells,int capacity, int cycles, String name)
-    {
-        JSONObject json = new JSONObject();
-
-
-        try {
-            json.put("brand", brand);
-            json.put("model", model);
-            json.put("cells", cells);
-            json.put("capacity", capacity);
-            json.put("cycles", cycles);
-            json.put("name", name);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
 
     public static JSONObject formatAddCycleParameter(String serverID, int cycles) {
         JSONObject json = new JSONObject();

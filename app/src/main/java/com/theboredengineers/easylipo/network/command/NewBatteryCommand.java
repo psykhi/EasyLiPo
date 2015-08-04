@@ -35,6 +35,15 @@ public class NewBatteryCommand extends NetworkCommand {
 
     @Override
     public JSONObject getJSON() {
-        return RemoteServer.formatNewBatteryParameters(battery.getBrand(), battery.getModel(), battery.getNbS(), battery.getCapacity(),battery.getNbOfCycles(), battery.getName());
+        return RemoteServer.formatNewBatteryParameters(battery.getBrand(),
+                battery.getModel(),
+                battery.getNbS(),
+                battery.getCapacity(),
+                battery.getNbOfCycles(),
+                battery.getDischargeRate(),
+                battery.getChargeRate(),
+                battery.getPurchaseDate(),
+                battery.isCharged(),
+                battery.getName());
     }
 }

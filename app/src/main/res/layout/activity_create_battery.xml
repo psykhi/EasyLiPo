@@ -14,12 +14,14 @@
         android:layout_height="48dp"
         app:popupTheme="@style/Theme.AppCompat.NoActionBar" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:id="@+id/fragment"
-          android:name="com.theboredengineers.easylipo.ui.fragments.CreateBatteryFragment"
-          tools:layout="@layout/fragment_activity_create_battery"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"/>
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.theboredengineers.easylipo.ui.views.NonSwipeableViewPager"
+        android:id="@+id/viewPager_new_battery"
+        android:layout_gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_below="@+id/toolbar" />
 
     </LinearLayout>

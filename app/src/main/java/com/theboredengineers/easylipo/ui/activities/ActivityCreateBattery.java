@@ -1,18 +1,40 @@
 package com.theboredengineers.easylipo.ui.activities;
 
-import android.support.v7.app.ActionBarActivity;
+import android.nfc.Tag;
+import android.nfc.tech.Ndef;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.theboredengineers.easylipo.R;
+import com.theboredengineers.easylipo.model.BatteryManager;
+import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.objects.Battery;
+import com.theboredengineers.easylipo.ui.adapters.AdapterNewBatteryViewPager;
+import com.theboredengineers.easylipo.ui.fragments.FragmentNewBattery;
+import com.theboredengineers.easylipo.ui.fragments.FragmentNewBattery.BatterySupplier;
 
-public class ActivityCreateBattery extends ActionBarActivity {
+public class ActivityCreateBattery extends NfcActivity implements FragmentNewBattery.OnNewBatteryFragmentNextButtonClicked,
+        BatterySupplier {
+
+    private ViewPager viewPager;
+    private Battery battery;
+    private AdapterNewBatteryViewPager adapterNewBatteryViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        battery = new Battery();
         setContentView(R.layout.activity_create_battery);
+        viewPager = (ViewPager) findViewById(R.id.viewPager_new_battery);
+        adapterNewBatteryViewPager =
+                new AdapterNewBatteryViewPager(getSupportFragmentManager(), battery);
+        viewPager.setAdapter(adapterNewBatteryViewPager);
+
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setTitle(R.string.new_battery);
     }
 
 
@@ -36,5 +58,30 @@ public class ActivityCreateBattery extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onNext(int step) {
+        if (step < FragmentNewBattery.BATTERY_DATE)
+            viewPager.setCurrentItem(step + 1);
+        else
+            waitForNFC();
+    }
+
+    @Override
+    protected void onNfcTagScanned(Tag tag, Ndef ndef) {
+        super.onNfcTagScanned(tag, ndef);
+    }
+
+    @Override
+    public void onDone() {
+        BatteryManager.getInstance(this).insertBattery(battery);
+        NetworkManager.getInstance().addNewBattery(this, battery);
+        finish();
+    }
+
+    @Override
+    public Battery getBattery() {
+        return battery;
     }
 }

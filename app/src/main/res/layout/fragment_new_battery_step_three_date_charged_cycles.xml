@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.theboredengineers.easylipo.ui.activities.ActivityCreateBattery"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <!-- Date Label -->
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Charged"
+            android:textOff="Discharged"
+            android:text="Charged"
+            android:id="@+id/create_charged"
+            android:layout_gravity="right"
+            android:checked="true" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/create_cycles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="Cycles" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_date_layout"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/create_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:hint="@string/acquisition_date" />
+        </android.support.design.widget.TextInputLayout>
+
+        <!-- Cycles Label -->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_skip"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:imeActionId="42"
+                android:imeActionLabel="enter"
+                android:text="Done"
+                android:layout_weight="0.5" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_next"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:padding="12dp"
+                android:imeActionId="42"
+                android:imeActionLabel="enter"
+                android:text="Scan NFC tag"
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

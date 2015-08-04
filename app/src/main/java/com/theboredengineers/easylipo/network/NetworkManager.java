@@ -18,6 +18,9 @@ import com.theboredengineers.easylipo.network.command.UpdateBatteryCommand;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 import com.theboredengineers.easylipo.objects.Battery;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
@@ -108,7 +111,7 @@ public class NetworkManager implements NetworkSyncListener{
         new SignoutCommand().execute(context, l);
     }
 
-    public void addNewBattery(Context context, Battery b) {
+    public void addNewBattery(final Context context, final Battery b) {
         final NewBatteryCommand command  = new NewBatteryCommand(b);
 
         command.execute(context, new NetworkCommandListener() {
@@ -116,7 +119,12 @@ public class NetworkManager implements NetworkSyncListener{
             public void onNetworkTaskEnd(Boolean success, Object json) {
                 if (success) {
                     Log.d("battery", json.toString());
-                    //TODO update DB
+                    try {
+                        b.setServer_id(((JSONObject) json).getString("_id"));
+                        BatteryManager.getInstance(context).updateBattery(b);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     PendingCommands.add(command);
                     Log.e("battery", "failed to upload battery");

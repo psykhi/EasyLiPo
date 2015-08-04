@@ -70,7 +70,7 @@ public class ActivityBatteryEdit extends NfcActivity implements BatteryEditFragm
         NfcTag.formatNdef(ndef, battery.getServer_id(), true);
 
         battery.setTagID(NfcTag.BuildFromTag(tag));
-        BatteryManager.getInstance(this).insertBattery(battery);
+        BatteryManager.getInstance(this).updateBattery(battery);
     }
 
     @Override

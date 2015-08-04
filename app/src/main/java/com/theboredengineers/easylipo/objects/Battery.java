@@ -81,6 +81,10 @@ public class Battery implements Serializable {
      * Number of Cells in parallel
      */
     private int nbP = 1;
+    /**
+     * charged ?
+     */
+    private boolean charged;
 
     /**
      * Return a formatted string representing the charge rate
@@ -139,12 +143,8 @@ public class Battery implements Serializable {
 
     }
 
-    public Boolean isLocal()
-    {
-        if (getServer_id().equals(""))
-            return true;
-        else
-            return false;
+    public Boolean isLocal() {
+        return getServer_id().equals("");
     }
     /*Getters and Setters*/
     public int getNbS() {
@@ -306,10 +306,7 @@ public class Battery implements Serializable {
         else
         {
             if (!isLocal()) {
-                if (((Battery) o).getServer_id().equals(getServer_id()))
-                    return true;
-                else
-                    return false;
+                return ((Battery) o).getServer_id().equals(getServer_id());
             }
             else {
                 return (((Battery) o).getId() == getId());
@@ -326,4 +323,11 @@ public class Battery implements Serializable {
         this.server_id = server_id;
     }
 
+    public boolean isCharged() {
+        return charged;
+    }
+
+    public void setCharged(boolean charged) {
+        this.charged = charged;
+    }
 }

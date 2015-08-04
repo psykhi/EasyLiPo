@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.theboredengineers.easylipo.interfaces.BatteryListChangedListener;
+import com.theboredengineers.easylipo.network.server.RemoteServer;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.objects.NfcTag;
 
@@ -122,10 +123,7 @@ public class BatteryManager {
     public Boolean addCycle(Battery battery)
     {
         battery.setNbOfCycles(battery.getNbOfCycles() + 1);
-        if (updateBattery(battery) != -1)
-            return true;
-        else
-            return false;
+        return updateBattery(battery) != -1;
     }
     /**
      * Get a battery from system
@@ -169,7 +167,7 @@ public class BatteryManager {
 
     public ArrayList<Battery> getBatteryList() {
 
-        return this.list;
+        return list;
     }
 
 
@@ -257,7 +255,7 @@ public class BatteryManager {
 
             for (int i = 0; i < array.length(); i++) {
                 try {
-                    newList.add(getBatteryFromJSON(array.getJSONObject(i)));
+                    newList.add(RemoteServer.getBatteryFromJSON(array.getJSONObject(i)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -296,7 +294,7 @@ public class BatteryManager {
             ArrayList<Battery> updateList = new ArrayList<Battery>();
             ArrayList<Battery> insertList = new ArrayList<Battery>();
             while (updateIterator.hasNext()) {
-                Battery serverBattery = (Battery) updateIterator.next();
+                Battery serverBattery = updateIterator.next();
                 int index = list.indexOf(serverBattery);
                 if (index != -1) {
                     // We replace the element in the list :o
@@ -334,29 +332,7 @@ public class BatteryManager {
         notifyListeners();
     }
 
-    public static Battery getBatteryFromJSON(JSONObject jsonObject) {
-        Battery batt = new Battery();
-        String name = null;
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-            Date date = format.parse(jsonObject.getString("bought"));
-            name = jsonObject.getString("name");
 
-            batt.setName(name);
-            batt.setPurchaseDate(date);
-            batt.setServer_id(jsonObject.getString("_id"));
-            batt.setNbOfCycles(jsonObject.getInt("cycles"));
-            batt.setBrand(jsonObject.getString("brand"));
-            batt.setModel(jsonObject.getString("model"));
-            batt.setNbS(jsonObject.getInt("cells"));
-            batt.setCapacity(jsonObject.getInt("capacity"));
-
-        } catch (JSONException | ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return batt;
-    }
     private void addBatteryFromJSONOBject(JSONObject jsonObject) {
         String name = null;
         try {

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="com.theboredengineers.easylipo.ui.activities.ActivityCreateBattery"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <!-- Capacity Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/create_capacity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:hint="@string/capacity_in_mah" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cells"
+                android:id="@+id/textView3" />
+
+            <com.theboredengineers.easylipo.ui.views.RichNumberPicker
+                android:id="@+id/create_cells"
+                android:layout_width="wrap_content"
+                min="1"
+                max="10"
+                defaultValue="3"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center">
+
+            </com.theboredengineers.easylipo.ui.views.RichNumberPicker>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Discharge in C"
+                    android:id="@+id/textView" />
+
+                <com.theboredengineers.easylipo.ui.views.RichNumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/create_discharge"
+                    min="10"
+                    defaultValue="20"
+                    interval="5"
+                    max="100"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center"></com.theboredengineers.easylipo.ui.views.RichNumberPicker>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Charge in C"
+                    android:id="@+id/textView2" />
+
+                <com.theboredengineers.easylipo.ui.views.RichNumberPicker
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/create_charge"
+                    min="1"
+                    max="10"
+                    defaultValue="2"
+                    android:gravity="center_horizontal"
+                    android:layout_gravity="center">
+
+                </com.theboredengineers.easylipo.ui.views.RichNumberPicker>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!-- Model Label -->
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_next"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:imeActionId="42"
+            android:imeActionLabel="enter"
+            android:text="@string/next" />
+
+    </LinearLayout>
+</ScrollView>
