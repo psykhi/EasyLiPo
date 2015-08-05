@@ -26,12 +26,12 @@
     <string name="title_activity_activity_battery_details">ActivityBatteryDetails</string>
     <string name="title_activity_activity_battery_edit">ActivityBatteryEdit</string>
     <string name="cancel">Cancel</string>
-    <string name="waiting_for_tag">Waiting for a tag...</string>
+    <string name="waiting_for_tag">Waiting for a tag…</string>
     <string name="action_delete">Delete</string>
     <string name="action_edit">Edit</string>
     <string name="cycles">" cycles"</string>
     <string name="signup_easylipo">Sign up to EasyLipo</string>
-    <string name="authenticating">"Authenticating... "</string>
+    <string name="authenticating">"Authenticating… "</string>
     <string name="new_battery">New Battery</string>
     <string name="next">Next</string>
     <string name="name">Name</string>
@@ -42,4 +42,7 @@
     <string name="charge_rate_in_c">Charge rate in C</string>
     <string name="capacity_in_mah">Capacity in mAh</string>
     <string name="acquisition_date">Acquisition date</string>
+    <string name="charged">Charged</string>
+    <string name="discharged">Discharged</string>
+    <string name="no_account_yet_get_one">No account yet? Create one</string>
 </resources>

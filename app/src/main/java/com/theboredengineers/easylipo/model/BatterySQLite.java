@@ -21,7 +21,6 @@ public class BatterySQLite {
     private static final String TAG = "BatterySQLite";
 
     SQLiteDatabase db = null;
-    Context context = null;
     EasyLipoSQLite sql;
     /**
      * Constructor
@@ -61,37 +60,39 @@ public class BatterySQLite {
         //   db.close();
         //db = sql.getWritableDatabase();
         NfcTag tag = battery.getTagID();
-        values.put(EasyLipoSQLite.COL_BAT_SERVER_ID, battery.getServer_id());
-        values.put(EasyLipoSQLite.COL_BAT_NAME, battery.getName());
-        values.put(EasyLipoSQLite.COL_BAT_BRAND, battery.getBrand());
-        values.put(EasyLipoSQLite.COL_BAT_MODEL, battery.getModel());
-        values.put(EasyLipoSQLite.COL_BAT_CAPACITY, battery.getCapacity());
-        values.put(EasyLipoSQLite.COL_BAT_CHARGERATE, battery.getChargeRate());
-        values.put(EasyLipoSQLite.COL_BAT_DISCHARGERATE, battery.getDischargeRate());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID, battery.getServer_id());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NAME, battery.getName());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_BRAND, battery.getBrand());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_MODEL, battery.getModel());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_CAPACITY, battery.getCapacity());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_CHARGERATE, battery.getChargeRate());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_DISCHARGERATE, battery.getDischargeRate());
         if(tag!=null)
-            values.put(EasyLipoSQLite.COL_BAT_TAGID, tag.toString());
-        values.put(EasyLipoSQLite.COL_BAT_RATING, battery.getRating());
-        values.put(EasyLipoSQLite.COL_BAT_NBS, battery.getNbS());
-        values.put(EasyLipoSQLite.COL_BAT_NBP, battery.getNbP());
-        values.put(EasyLipoSQLite.COL_BAT_CHARGED, battery.isCharged());
+            values.put(EasyLipoSQLite.Batteries.COL_BAT_TAGID, tag.toString());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_RATING, battery.getRating());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NBS, battery.getNbS());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NBP, battery.getNbP());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_CHARGED, battery.isCharged());
 
         long timeOfPurchase;
         if (battery.getPurchaseDate() != null)
             timeOfPurchase = battery.getPurchaseDate().getTime();
         else
             timeOfPurchase = -1;
-        values.put(EasyLipoSQLite.COL_BAT_PURCHASEDATE, timeOfPurchase);
-        values.put(EasyLipoSQLite.COL_BAT_NBOFCYCLES, battery.getNbOfCycles());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_PURCHASEDATE, timeOfPurchase);
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NBOFCYCLES, battery.getNbOfCycles());
 
         id = -1;
         Battery temp = getBatteryByServerId(battery.getServer_id());
         if(temp != null)
         {
-            db.update(EasyLipoSQLite.TABLE_BATTERIES, values, EasyLipoSQLite.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
+            db.update(EasyLipoSQLite.Batteries.TABLE_BATTERIES, values,
+                    EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
             id =temp.getId();
         }
         else
-            db.update(EasyLipoSQLite.TABLE_BATTERIES, values, EasyLipoSQLite.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
+            db.update(EasyLipoSQLite.Batteries.TABLE_BATTERIES, values,
+                    EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
         return id;
     }
 
@@ -103,28 +104,28 @@ public class BatterySQLite {
         //   db.close();
         //db = sql.getWritableDatabase();
         NfcTag tag = battery.getTagID();
-        values.put(EasyLipoSQLite.COL_BAT_SERVER_ID, battery.getServer_id());
-        values.put(EasyLipoSQLite.COL_BAT_NAME, battery.getName());
-        values.put(EasyLipoSQLite.COL_BAT_BRAND, battery.getBrand());
-        values.put(EasyLipoSQLite.COL_BAT_MODEL, battery.getModel());
-        values.put(EasyLipoSQLite.COL_BAT_CAPACITY, battery.getCapacity());
-        values.put(EasyLipoSQLite.COL_BAT_CHARGERATE, battery.getChargeRate());
-        values.put(EasyLipoSQLite.COL_BAT_DISCHARGERATE, battery.getDischargeRate());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID, battery.getServer_id());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NAME, battery.getName());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_BRAND, battery.getBrand());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_MODEL, battery.getModel());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_CAPACITY, battery.getCapacity());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_CHARGERATE, battery.getChargeRate());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_DISCHARGERATE, battery.getDischargeRate());
         if (tag != null)
-            values.put(EasyLipoSQLite.COL_BAT_TAGID, tag.toString());
-        values.put(EasyLipoSQLite.COL_BAT_RATING, battery.getRating());
-        values.put(EasyLipoSQLite.COL_BAT_NBS, battery.getNbS());
-        values.put(EasyLipoSQLite.COL_BAT_NBP, battery.getNbP());
-        values.put(EasyLipoSQLite.COL_BAT_CHARGED, battery.isCharged());
+            values.put(EasyLipoSQLite.Batteries.COL_BAT_TAGID, tag.toString());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_RATING, battery.getRating());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NBS, battery.getNbS());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NBP, battery.getNbP());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_CHARGED, battery.isCharged());
 
         long timeOfPurchase;
         if (battery.getPurchaseDate() != null)
             timeOfPurchase = battery.getPurchaseDate().getTime();
         else
             timeOfPurchase = -1;
-        values.put(EasyLipoSQLite.COL_BAT_PURCHASEDATE, timeOfPurchase);
-        values.put(EasyLipoSQLite.COL_BAT_NBOFCYCLES, battery.getNbOfCycles());
-        id = (int) db.insert(EasyLipoSQLite.TABLE_BATTERIES, "null", values);
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_PURCHASEDATE, timeOfPurchase);
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_NBOFCYCLES, battery.getNbOfCycles());
+        id = (int) db.insert(EasyLipoSQLite.Batteries.TABLE_BATTERIES, "null", values);
         battery.setID(id);
         return id;
     }
@@ -133,21 +134,21 @@ public class BatterySQLite {
      * Use exclusively this array as columns for query that will be treated
      * with the @getBatteryByLocalId method
      */
-    private static final String ColumnsForRequest[] = new String[]{EasyLipoSQLite.COL_BAT_LOCAL_ID,
-            EasyLipoSQLite.COL_BAT_SERVER_ID,
-            EasyLipoSQLite.COL_BAT_NAME,
-            EasyLipoSQLite.COL_BAT_BRAND,
-            EasyLipoSQLite.COL_BAT_MODEL,
-            EasyLipoSQLite.COL_BAT_CAPACITY,
-            EasyLipoSQLite.COL_BAT_CHARGERATE,
-            EasyLipoSQLite.COL_BAT_DISCHARGERATE,
-            EasyLipoSQLite.COL_BAT_TAGID,
-            EasyLipoSQLite.COL_BAT_RATING,
-            EasyLipoSQLite.COL_BAT_PURCHASEDATE,
-            EasyLipoSQLite.COL_BAT_NBOFCYCLES,
-            EasyLipoSQLite.COL_BAT_NBS,
-            EasyLipoSQLite.COL_BAT_NBP,
-            EasyLipoSQLite.COL_BAT_CHARGED};
+    private static final String ColumnsForRequest[] = new String[]{EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID,
+            EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID,
+            EasyLipoSQLite.Batteries.COL_BAT_NAME,
+            EasyLipoSQLite.Batteries.COL_BAT_BRAND,
+            EasyLipoSQLite.Batteries.COL_BAT_MODEL,
+            EasyLipoSQLite.Batteries.COL_BAT_CAPACITY,
+            EasyLipoSQLite.Batteries.COL_BAT_CHARGERATE,
+            EasyLipoSQLite.Batteries.COL_BAT_DISCHARGERATE,
+            EasyLipoSQLite.Batteries.COL_BAT_TAGID,
+            EasyLipoSQLite.Batteries.COL_BAT_RATING,
+            EasyLipoSQLite.Batteries.COL_BAT_PURCHASEDATE,
+            EasyLipoSQLite.Batteries.COL_BAT_NBOFCYCLES,
+            EasyLipoSQLite.Batteries.COL_BAT_NBS,
+            EasyLipoSQLite.Batteries.COL_BAT_NBP,
+            EasyLipoSQLite.Batteries.COL_BAT_CHARGED};
 
 
     /**
@@ -157,12 +158,12 @@ public class BatterySQLite {
      * @return the found battery, or null otherwise.
      */
     public Battery getBatteryById(int id) {
-        Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
+        Cursor c = db.query(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
                 ColumnsForRequest,
-                EasyLipoSQLite.COL_BAT_LOCAL_ID + " = " + Integer.toString(id),
+                EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + " = " + Integer.toString(id),
                 null, null, null, null);
 
-        ArrayList<Battery> batteryList = new ArrayList<Battery>();
+        ArrayList<Battery> batteryList = new ArrayList<>();
 
         batteryList = cursorToBatteries(c, batteryList);
 
@@ -174,15 +175,15 @@ public class BatterySQLite {
 
     public Battery getBatteryByServerId(String id) {
         if(!id.equals("")) {
-            Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
+            Cursor c = db.query(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
                     ColumnsForRequest,
-                    EasyLipoSQLite.COL_BAT_SERVER_ID + " = \"" + id + "\"",
+                    EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID + " = \"" + id + "\"",
                     null, null, null, null);
 
-            ArrayList<Battery> batteryList = new ArrayList<Battery>();
+            ArrayList<Battery> batteryList = new ArrayList<>();
 
             cursorToBatteries(c, batteryList);
-            if (batteryList != null && batteryList.size() > 0)
+            if (batteryList.size() > 0)
                 return batteryList.get(0);
             else
                 return null;
@@ -197,7 +198,7 @@ public class BatterySQLite {
     public void removeAllBatteries() {
         db = sql.getWritableDatabase();
         Log.e("DB",db.isDbLockedByCurrentThread()+" locked "+db.isReadOnly()+" RO ");
-        db.delete(EasyLipoSQLite.TABLE_BATTERIES, null, null);
+        db.delete(EasyLipoSQLite.Batteries.TABLE_BATTERIES, null, null);
     }
 
 
@@ -211,12 +212,12 @@ public class BatterySQLite {
         if (tag == null)
             return null;
         String tagAsString = tag.toString();
-        Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
+        Cursor c = db.query(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
                 ColumnsForRequest,
-                EasyLipoSQLite.COL_BAT_TAGID + " = " + "\"" + tagAsString + "\"",
+                EasyLipoSQLite.Batteries.COL_BAT_TAGID + " = " + "\"" + tagAsString + "\"",
                 null, null, null, null);
 
-        ArrayList<Battery> batteryList = new ArrayList<Battery>();
+        ArrayList<Battery> batteryList = new ArrayList<>();
 
         batteryList = cursorToBatteries(c, batteryList);
         if (batteryList != null && batteryList.size() > 0)
@@ -230,23 +231,13 @@ public class BatterySQLite {
     /**
      * Get Batteries sorted by capacity for any given S, P
      *
-     * @return the found batteries
+     *
      */
     public void getBatteriesByCapacity(ArrayList<Battery> list) {
         getBatteries(null, null, null, null,
-                EasyLipoSQLite.COL_BAT_NBS + ", "
-                        + EasyLipoSQLite.COL_BAT_NBP + ", "
-                        + EasyLipoSQLite.COL_BAT_CAPACITY + " ASC", list);
-    }
-
-
-    /**
-     * Get Batteries sorted by name
-     *
-     * @return the batteries
-     */
-    public void getBatteriesByName(ArrayList<Battery> list) {
-        getBatteries(null, null, null, null, EasyLipoSQLite.COL_BAT_NAME + " ASC", list);
+                EasyLipoSQLite.Batteries.COL_BAT_NBS + ", "
+                        + EasyLipoSQLite.Batteries.COL_BAT_NBP + ", "
+                        + EasyLipoSQLite.Batteries.COL_BAT_CAPACITY + " ASC", list);
     }
 
 
@@ -256,16 +247,15 @@ public class BatterySQLite {
      * @param selection     SELECT clause exemple : select = "ColumnName=?"
      * @param selectionArgs Select args (replace the "?" on the selection argument) ONLY FOR STRINGS
      * @param groupBy       GROUPBY clause
-     * @param having
+     * @param having        having
      * @param orderBy       ORDERBY clause
-     * @return
      */
     private void getBatteries(String selection,
                               String selectionArgs[],
                               String groupBy,
                               String having,
                               String orderBy, ArrayList<Battery> list) {
-        Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
+        Cursor c = db.query(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
                 ColumnsForRequest,
                 selection, //selection
                 selectionArgs, //selectionArgs
@@ -281,30 +271,28 @@ public class BatterySQLite {
     /**
      * Get all batteries that are inserted in the database
      *
-     * @return the list of batteries from database
      */
     public void getAllBatteries(ArrayList<Battery> batteryList) {
-        Cursor c = db.query(EasyLipoSQLite.TABLE_BATTERIES,
+        Cursor c = db.query(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
                 ColumnsForRequest,
                 null, //no condition
                 null, null, null, null);
 
         cursorToBatteries(c, batteryList);
-
     }
 
     public boolean removeBattery(int id){
         db = sql.getWritableDatabase();
-        int i = db.delete(EasyLipoSQLite.TABLE_BATTERIES,
-                EasyLipoSQLite.COL_BAT_LOCAL_ID + "=" + id,
+        int i = db.delete(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
+                EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + id,
                 null);
         return i == 1;
     }
 
     public boolean removeBattery(NfcTag nfcTag){
         db = sql.getWritableDatabase();
-        int i = db.delete(EasyLipoSQLite.TABLE_BATTERIES,
-                EasyLipoSQLite.COL_BAT_TAGID + "=?" , //string : pass arg as 3rd arg of delete func
+        int i = db.delete(EasyLipoSQLite.Batteries.TABLE_BATTERIES,
+                EasyLipoSQLite.Batteries.COL_BAT_TAGID + "=?", //string : pass arg as 3rd arg of delete func
                 new String[]{nfcTag.toString()});
         return i == 1;
     }

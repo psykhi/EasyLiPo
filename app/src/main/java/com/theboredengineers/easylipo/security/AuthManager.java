@@ -113,7 +113,7 @@ public class AuthManager implements NetworkEventListener {
     public void setSessionId(Context context, String cookie) {
         SharedPreferences preferences = context.getSharedPreferences("easylipo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =preferences.edit();
-        editor.putString("session", cookie).commit();
+        editor.putString("session", cookie).apply();
 
         Log.d("session", context.getSharedPreferences("easylipo", Context.MODE_PRIVATE).getString("session", "lol"));
         this.sessionId = cookie;

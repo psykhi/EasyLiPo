@@ -30,7 +30,6 @@ import java.util.ArrayList;
  * Created by Alex on 14/06/2015.
  */
 public class NetworkManager implements NetworkSyncListener {
-    private ArrayList<NetworkCommand> commands;
     private ArrayList<NetworkSyncListener> observers;
     private static NetworkManager instance = null;
     private boolean syncing = false;
@@ -38,8 +37,7 @@ public class NetworkManager implements NetworkSyncListener {
 
     private NetworkManager()
     {
-        observers = new ArrayList<NetworkSyncListener>();
-        commands = new ArrayList<NetworkCommand>();
+        observers = new ArrayList<>();
         observers.add(this);
 
     }

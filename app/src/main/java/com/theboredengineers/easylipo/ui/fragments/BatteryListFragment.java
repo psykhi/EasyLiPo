@@ -42,8 +42,7 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
     FloatingActionButton addButton;
 
     public static BatteryListFragment newInstance(boolean sync) {
-        BatteryListFragment fragment = new BatteryListFragment();
-        return fragment;
+        return new BatteryListFragment();
     }
 
     /**

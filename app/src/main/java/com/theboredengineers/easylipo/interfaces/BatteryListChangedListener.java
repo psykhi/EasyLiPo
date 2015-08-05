@@ -5,5 +5,5 @@ package com.theboredengineers.easylipo.interfaces;
  */
 public interface BatteryListChangedListener {
 
-    public void onBatteryListChanged();
+    void onBatteryListChanged();
 }

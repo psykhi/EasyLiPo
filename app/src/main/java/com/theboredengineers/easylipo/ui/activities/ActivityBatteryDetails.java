@@ -6,6 +6,7 @@ import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -83,7 +84,9 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
     protected void onResume() {
         super.onResume();
         setTitle(batteryManager.getBatteryList().get(position).getName());
-        getSupportActionBar().setTitle(this.getTitle());
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null)
+            supportActionBar.setTitle(this.getTitle());
     }
 
     @Override

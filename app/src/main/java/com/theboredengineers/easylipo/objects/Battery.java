@@ -1,11 +1,9 @@
 package com.theboredengineers.easylipo.objects;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
 
 /**
  * Created by benoit.hocquet on 05/01/2015.
@@ -270,36 +268,6 @@ public class Battery implements Serializable {
         this.name =  "Battery"+ Calendar.getInstance().getDisplayName(Calendar.DATE,Calendar.SHORT, Locale.ENGLISH);
     }
 
-    static public ArrayList<Battery> CreateRandomBatteries(int number) {
-        ArrayList<Battery> batteries = new ArrayList<>();
-
-
-        Random r = new Random();
-        Battery bat;
-        for (int i = 1; i <= number; i++) {
-            String name = "Battery " + r.nextInt(1000 - 0);
-            String brand = "Hobbyking";
-            String model = "model";
-            int s = r.nextInt(7 - 1) + 1;
-            int p = r.nextInt(3 - 1) + 1;
-            int capa = 2500*(r.nextInt(3 - 1) + 1);
-            int nbCycles = r.nextInt(151 - 0) + 0;
-
-            bat = new Battery(name,NfcTag.BuildFromBytes(new byte[]{
-                    (byte)(-128 + s % 128),
-                    (byte)(-128 + p % 128),
-                    (byte)(-128 + capa+s+p % 128),
-                    (byte)(-128 + nbCycles % 128)}));
-            bat.setNbS(s);
-            bat.setNbP(p);
-            bat.setCapacity(capa);
-            bat.setNbOfCycles(nbCycles);
-            bat.setBrand(brand);
-            bat.setModel(model);
-            batteries.add(bat);
-        }
-        return batteries;
-    }
 
     @Override
     public boolean equals(Object o) {

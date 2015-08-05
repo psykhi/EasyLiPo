@@ -170,16 +170,6 @@ public class BatteryManager {
     }
 
 
-    /**
-     * Get all batteries that are inserted in the system
-     *
-     * @return the list of batteries
-     */
-    public ArrayList<Battery> getAllBatteries() {
-        //return sqlBat.getAllBatteries();
-        //TODO
-        return null;
-    }
 
     public ArrayList<Battery> getBatteryList() {
 
@@ -195,28 +185,6 @@ public class BatteryManager {
      */
     public Battery getBatteryByTag(NfcTag tag) {
         return sqlBat.getBatteryByTag(tag);
-    }
-
-    /**
-     * Get Batteries sorted by capacity for any given S, P,
-     *
-     * @return the found batteries
-     */
-    private ArrayList<Battery> getBatteriesByCapacity() {
-        //return sqlBat.getBatteriesByCapacity();
-        //TODO
-        return null;
-    }
-
-    /**
-     * Get Batteries sorted by name
-     *
-     * @return the batteries
-     */
-    public ArrayList<Battery> getBatteriesByName() {
-        //  return sqlBat.getBatteriesByName();
-        //TODO
-        return null;
     }
 
 
@@ -242,9 +210,7 @@ public class BatteryManager {
      * @return
      */
     private boolean removeBatterySQL(int id) {
-        boolean returnCode =  sqlBat.removeBattery(id);
-
-        return returnCode;
+        return sqlBat.removeBattery(id);
     }
 
     public boolean removeBattery(NfcTag nfcTag) {
@@ -303,8 +269,6 @@ public class BatteryManager {
                     Log.d(TAG, "REP " + old);
                     removeBatterySQL(old.getId());
                     iterator.remove();
-
-                    //TODO should we start over here since the order has changed ??
                 }
             }
             // Then we can safely replace our local batteries with the ones from the server

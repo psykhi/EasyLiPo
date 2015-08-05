@@ -33,7 +33,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="0.5"
             android:gravity="center_horizontal">
 
@@ -60,7 +60,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -84,7 +85,7 @@
                     interval="5"
                     max="100"
                     android:gravity="center_horizontal"
-                    android:layout_gravity="center"></com.theboredengineers.easylipo.ui.views.RichNumberPicker>
+                    android:layout_gravity="center" />
 
             </LinearLayout>
 

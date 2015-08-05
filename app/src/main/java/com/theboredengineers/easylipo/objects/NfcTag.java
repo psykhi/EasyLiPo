@@ -76,8 +76,7 @@ public class NfcTag implements Serializable {
             chars[idx] = string.charAt(strIdx);
         }
 
-        String str2 = new String(chars);
-        return str2;
+        return new String(chars);
     }
 
     public byte[] toBytes() {

@@ -32,8 +32,7 @@ public class AdapterBatteryDetailsViewPager extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        BatteryDetailsFragment fragment = BatteryDetailsFragment.newInstance(position, false);
-        return fragment;
+        return BatteryDetailsFragment.newInstance(position, false);
     }
 
     @Override

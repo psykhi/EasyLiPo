@@ -13,6 +13,8 @@ import org.json.JSONObject;
  */
 public abstract class NetworkCommand {
     private NetworkCommandListener commandListener;
+    private static final String TAG = "Network command";
+    private int id;
 
     public NetworkCommand()
     {
@@ -38,7 +40,7 @@ public abstract class NetworkCommand {
     public void execute(Context context, NetworkCommandListener listener)
     {
 
-        Log.d("Commands", "Executing command " + getName());
+        Log.d("Commands", "Executing " + getName());
         this.commandListener = listener;
         if (NetworkManager.isConnected(context)) {
             new NetworkTask().execute(context, this);
@@ -50,5 +52,13 @@ public abstract class NetworkCommand {
 
     public void onSessionIDCookie(String cookie) {
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

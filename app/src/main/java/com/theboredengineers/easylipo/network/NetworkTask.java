@@ -92,7 +92,7 @@ public class NetworkTask extends AsyncTask<Object,Long,Integer>{
                     response.append('\r');
                 }
                 rd.close();
-                Log.d("Network command " + command.getName() + " response :", response.toString());
+                Log.d(command.getName() + " response :", response.toString());
 
                 json =  new JSONTokener(response.toString()).nextValue();
 

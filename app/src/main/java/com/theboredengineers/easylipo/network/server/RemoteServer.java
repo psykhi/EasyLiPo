@@ -48,6 +48,26 @@ public  class RemoteServer{
         return json;
     }
 
+    public static JSONObject formatUpdateParameters(Battery battery) {
+        JSONObject json = new JSONObject();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+
+        try {
+            json.put("brand", battery.getBrand());
+            json.put("bought", format.format(battery.getPurchaseDate()));
+            json.put("charged", battery.isCharged());
+            json.put("brand", battery.getBrand());
+            json.put("discharge", battery.getDischargeRate());
+            json.put("charge", battery.getChargeRate());
+            json.put("model", battery.getModel());
+            json.put("cells", battery.getNbS());
+            json.put("capacity", battery.getCapacity());
+            json.put("name", battery.getName());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
 
     public static Battery getBatteryFromJSON(JSONObject jsonObject) {
         Battery batt = new Battery();
@@ -130,21 +150,7 @@ public  class RemoteServer{
         return json;
     }
 
-    public static JSONObject formatUpdateParameters(Battery battery) {
-        JSONObject json = new JSONObject();
 
-
-        try {
-            json.put("brand", battery.getBrand());
-            json.put("model", battery.getModel());
-            json.put("cells", battery.getNbS());
-            json.put("capacity", battery.getCapacity());
-            json.put("name", battery.getName());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
 
     public static String getErrorMessageFromJSON(Object json) {
         try {

@@ -16,6 +16,7 @@ public class EasyLiPo extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
 
@@ -26,4 +27,5 @@ public class EasyLiPo extends Application {
 
 
     }
+
 }
