@@ -12,11 +12,11 @@ import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
-import com.theboredengineers.easylipo.network.NetworkManager;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.objects.NfcTag;
 import com.theboredengineers.easylipo.ui.adapters.AdapterBatteryDetailsViewPager;
 import com.theboredengineers.easylipo.ui.fragments.BatteryDetailsFragment;
+import com.theboredengineers.easylipo.ui.views.BlockableViewPager;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
     private int position;
     private BatteryManager batteryManager;
     private ArrayList<Battery> batteryList;
-    private ViewPager viewPager;
+    private BlockableViewPager viewPager;
     private AdapterBatteryDetailsViewPager adapterBatteryDetailsViewPager;
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -61,8 +61,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
         batteryList = batteryManager.getBatteryList();
 
 
-
-        viewPager = (ViewPager) findViewById(R.id.viewPager_activity_details);
+        viewPager = (BlockableViewPager) findViewById(R.id.viewPager_activity_details);
         adapterBatteryDetailsViewPager =
                 new AdapterBatteryDetailsViewPager(getSupportFragmentManager(),batteryList);
         viewPager.setAdapter(adapterBatteryDetailsViewPager);
@@ -119,8 +118,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
         String serverId = toRemove.getServer_id();
         Boolean isLocal = toRemove.isLocal();
         BatteryManager.getInstance(this).removeBattery(toRemove);
-        if (!isLocal)
-            NetworkManager.getInstance().removeBattery(this, serverId);
+
         finish();
     }
 
@@ -143,10 +141,19 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
 
     @Override
     public void onEditButtonClicked(int position) {
-
-        Intent intent = new Intent(this,ActivityBatteryEdit.class);
-        intent.putExtra("batteryListPosition",position);
-        startActivity(intent);
+        enterEditMode();
     }
+
+    @Override
+    public void onEditDone() {
+        viewPager.setBlocked(false);
+    }
+
+    private void enterEditMode() {
+        viewPager.setBlocked(true);
+        adapterBatteryDetailsViewPager.getCurrentFragment().setInEditMode(true);
+
+    }
+
 
 }

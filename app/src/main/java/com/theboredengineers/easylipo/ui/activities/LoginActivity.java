@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.network.NetworkManager;
-import com.theboredengineers.easylipo.network.NetworkSyncListener;
+import com.theboredengineers.easylipo.network.listeners.NetworkSyncListener;
 import com.theboredengineers.easylipo.security.AuthManager;
 import com.theboredengineers.easylipo.security.NetworkEventListener;
 

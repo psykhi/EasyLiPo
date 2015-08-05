@@ -29,6 +29,7 @@ public class EasyLipoSQLite extends SQLiteOpenHelper {
     public static final String COL_BAT_NBOFCYCLES = "nbOfCycles";
     public static final String COL_BAT_NBS = "nbS";
     public static final String COL_BAT_NBP = "nbP";
+    public static final String COL_BAT_CHARGED = "charged";
 
 
     private static final String CREATE_BDD = "CREATE TABLE " + TABLE_BATTERIES + " ("
@@ -45,7 +46,8 @@ public class EasyLipoSQLite extends SQLiteOpenHelper {
             + COL_BAT_PURCHASEDATE + " INTEGER,"
             + COL_BAT_NBOFCYCLES + " INTEGER,"
             + COL_BAT_NBS + " INTEGER," //add in v2
-            + COL_BAT_NBP + " INTEGER"
+            + COL_BAT_NBP + " INTEGER,"
+            + COL_BAT_CHARGED + " INTEGER"
             + ");";
 
     public EasyLipoSQLite(Context context) {

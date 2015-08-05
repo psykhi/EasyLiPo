@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
-import com.theboredengineers.easylipo.network.NetworkManager;
 import com.theboredengineers.easylipo.objects.Battery;
 
 /**
@@ -80,7 +79,6 @@ public class BatteryEditFragment extends BaseFragment {
         battery.setCapacity(Integer.parseInt(capacity.getText().toString()));
         battery.setNbS(Integer.parseInt(cells.getText().toString()));
         BatteryManager.getInstance(getActivity()).updateBattery(battery);
-        NetworkManager.getInstance().updateBattery(getActivity(), battery);
         listener.onEdit(battery);
     }
 
@@ -103,7 +101,8 @@ public class BatteryEditFragment extends BaseFragment {
     }
 
     public interface OnBatteryEditFragmentInteractionListener {
-        public void onChangeNFCTag(Battery batt);
-        public void onEdit(Battery batt);
+        void onChangeNFCTag(Battery batt);
+
+        void onEdit(Battery batt);
     }
 }

@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.theboredengineers.easylipo.model.BatteryManager;
-import com.theboredengineers.easylipo.network.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.network.listeners.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 import java.util.ArrayList;

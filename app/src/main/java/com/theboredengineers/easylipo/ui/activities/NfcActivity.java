@@ -14,7 +14,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
-import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.objects.NfcTag;
 
 /**
@@ -27,7 +26,7 @@ public class NfcActivity extends SecuredActivity {
     private IntentFilter[] intentFiltersArray;
     private NfcAdapter mAdapter;
     private PendingIntent pendingIntent;
-    private AlertDialog dlgAlertWaitForTag = null;
+    protected AlertDialog dlgAlertWaitForTag = null;
 
 
     @Override
@@ -51,7 +50,7 @@ public class NfcActivity extends SecuredActivity {
     public void waitForNFC()
     {
         if (dlgAlertWaitForTag == null) {
-            AlertDialog.Builder dlgBuilder = new AlertDialog.Builder(this);
+            AlertDialog.Builder dlgBuilder = new AlertDialog.Builder(this, R.style.AppTheme_Dark_Dialog);
             dlgBuilder.setNegativeButton(R.string.cancel,
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -95,10 +94,10 @@ public class NfcActivity extends SecuredActivity {
         Log.i("NFC", "new NFC tag scanned : " + NfcTag.BuildFromBytes(tagFromIntent.getId()).toFormattedString());
 
 
-
+        boolean dismissDialog = true;
         if (tag.isWritable()) {
 
-            onNfcTagScanned(tagFromIntent, tag);
+            dismissDialog = onNfcTagScanned(tagFromIntent, tag);
 
         } else {
             Toast.makeText(this,"Non writable TAG unsupported",Toast.LENGTH_LONG).show();
@@ -106,15 +105,16 @@ public class NfcActivity extends SecuredActivity {
         Log.i("NFC", "affect");
 
         isTagInProcess = false;
-        if (dlgAlertWaitForTag != null)
+        if ((dlgAlertWaitForTag != null) && dismissDialog)
             dlgAlertWaitForTag.dismiss();
         dlgAlertWaitForTag = null;
     }
 
-    protected void onNfcTagScanned(Tag tag, Ndef ndef)
+    protected boolean onNfcTagScanned(Tag tag, Ndef ndef)
     {
 
 
+        return false;
     }
     @Override
     protected void onPause() {

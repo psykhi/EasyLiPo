@@ -5,9 +5,193 @@
     tools:context="com.theboredengineers.easylipo.ui.fragments.BatteryDetailsFragment"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="100dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/textViewCycleCount"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="66dp"
+                    android:layout_marginStart="66dp" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Charged"
+                    android:id="@+id/details_charged"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:checked="false" />
+            </RelativeLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="5">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill">
+
+                    <EditText
+                        android:id="@+id/details_brand"
+                        android:layout_width="match_parent"
+                        android:enabled="false"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:hint="@string/brand"
+                        android:text="Not set" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill">
+
+                    <EditText
+                        android:id="@+id/details_model"
+                        android:enabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:hint="@string/model"
+                        android:text="Not set" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center|fill"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/details_capacity"
+                        android:enabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="@string/capacity_in_mah"
+                        android:text="0" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- cells -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center|fill"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/details_cells"
+                        android:enabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="@string/cells"
+                        android:text="0" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- discharge -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center|fill"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/details_discharge"
+                        android:enabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="@string/discharge_rate_in_c"
+                        android:text="0" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!-- charge -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center|fill"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/details_charge"
+                        android:enabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:hint="@string/charge_rate_in_c"
+                        android:text="0" />
+                </android.support.design.widget.TextInputLayout>
+                <!-- date -->
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="center|fill"
+                    android:gravity="center_vertical">
+
+                    <EditText
+                        android:id="@+id/details_date"
+                        android:enabled="false"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="date"
+                        android:hint="@string/acquisition_date"
+                        android:text="00/00/000" />
+                </android.support.design.widget.TextInputLayout>
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonBatteryDetailsAddCycle"
@@ -15,87 +199,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         fab:fab_icon="@mipmap/ic_plus_one"
-        android:layout_marginBottom="16dp"/>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textViewCycleCount"
-            android:layout_gravity="center"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textAlignment="center"
-            android:gravity="center_vertical|center_horizontal"/>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Brand"
-                android:id="@+id/textViewDetailsBrand"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextDetailsBrand"
-                android:hint="Brand"
-                android:editable="false"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Model"
-                android:id="@+id/textViewDetailsModel"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextDetailsModel"
-                android:hint="Brand"
-                android:editable="false"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Capacity"
-                android:id="@+id/textViewDetailsCapacity"/>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextDetailsCapacity"
-                android:hint="@string/capacity_in_mah"
-                android:editable="false"
-                android:inputType="number"/>
-        </LinearLayout>
-
-    </LinearLayout>
+        fab:fab_colorNormal="@color/primary_darker"
+        fab:fab_colorPressed="@color/primary_dark"
+        android:layout_marginBottom="16dp" />
 </FrameLayout>

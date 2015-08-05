@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.theboredengineers.easylipo.interfaces.BatteryListChangedListener;
+import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.network.listeners.OnBatteryInsertedListener;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.objects.NfcTag;
@@ -29,6 +31,7 @@ import java.util.Locale;
  */
 public class BatteryManager {
 
+    private static final String TAG = "Battery Manager";
     private BatterySQLite sqlBat;
     private static ArrayList<Battery> list;
     private static BatteryManager INSTANCE;
@@ -79,7 +82,7 @@ public class BatteryManager {
         Iterator<Battery> iterator = list.iterator();
         while (iterator.hasNext()) {
             Battery batt = iterator.next();
-            Log.d("List", batt.toString());
+            Log.d(TAG, batt.toString());
         }
 
         this.notifyListeners();
@@ -105,8 +108,14 @@ public class BatteryManager {
      * @param battery battery to be inserted (if succeeded its id will be changed)
      * @return the id of the inserted battery, -1 if failed.
      */
-    public int insertBattery(Battery battery) {
-        Log.d("Battery", "inserting " + battery.toString());
+    public int insertBattery(Battery battery, OnBatteryInsertedListener listener) {
+        int ret = insertBatterySQL(battery);
+        NetworkManager.getInstance().addNewBattery(context, battery, listener);
+        return ret;
+    }
+
+    public int insertBatterySQL(Battery battery) {
+        Log.d(TAG, "inserting " + battery.toString());
         list.add(battery);
         int ret = sqlBat.insertBattery(battery);
         sortBatteries();
@@ -114,7 +123,14 @@ public class BatteryManager {
     }
 
     public int updateBattery(Battery battery) {
-        Log.d("Battery", "updating " + battery.toString());
+        int ret = updateBatterySQL(battery);
+        if (!battery.isLocal())
+            NetworkManager.getInstance().updateBattery(context, battery);
+        return ret;
+    }
+
+    public int updateBatterySQL(Battery battery) {
+        Log.d(TAG, "updating " + battery.toString());
         int ret = sqlBat.updateBattery(battery);
         sortBatteries();
         return ret;
@@ -211,9 +227,11 @@ public class BatteryManager {
      */
     public boolean removeBattery(Battery bat) {
         list.remove(bat);
-        boolean returnCode =  removeBattery(bat.getId());
+        boolean returnCode = removeBatterySQL(bat.getId());
         if(returnCode)
             bat.setID(-1); // The battery is not in the system anymore
+        if (!bat.isLocal())
+            NetworkManager.getInstance().removeBattery(context, bat.getServer_id());
         notifyListeners();
         return returnCode;
     }
@@ -223,7 +241,7 @@ public class BatteryManager {
      * @param id
      * @return
      */
-    private boolean removeBattery(int id) {
+    private boolean removeBatterySQL(int id) {
         boolean returnCode =  sqlBat.removeBattery(id);
 
         return returnCode;
@@ -282,8 +300,8 @@ public class BatteryManager {
                 // First we remove the batteries missing from the server
                 if (!serverList.contains(old)) {
                     // The local battery has been deleted :( RIP
-                    Log.d("DELETE", "REP " + old);
-                    removeBattery(old.getId());
+                    Log.d(TAG, "REP " + old);
+                    removeBatterySQL(old.getId());
                     iterator.remove();
 
                     //TODO should we start over here since the order has changed ??
@@ -348,10 +366,12 @@ public class BatteryManager {
             batt.setModel(jsonObject.getString("model"));
             batt.setNbS(jsonObject.getInt("cells"));
             batt.setCapacity(jsonObject.getInt("capacity"));
-            this.insertBattery(batt);
+            this.insertBatterySQL(batt);
         } catch (JSONException | ParseException e) {
             e.printStackTrace();
         }
 
     }
+
+
 }

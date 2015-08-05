@@ -2,6 +2,8 @@ package com.theboredengineers.easylipo.network;
 
 import android.content.Context;
 
+import com.theboredengineers.easylipo.network.listeners.NetworkCommandListener;
+import com.theboredengineers.easylipo.network.listeners.NetworkSyncListener;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 import java.util.ArrayList;

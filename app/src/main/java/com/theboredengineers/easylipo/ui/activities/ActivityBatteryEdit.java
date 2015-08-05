@@ -66,11 +66,12 @@ public class ActivityBatteryEdit extends NfcActivity implements BatteryEditFragm
 
 
     @Override
-    protected void onNfcTagScanned(Tag tag, Ndef ndef) {
+    protected boolean onNfcTagScanned(Tag tag, Ndef ndef) {
         NfcTag.formatNdef(ndef, battery.getServer_id(), true);
 
         battery.setTagID(NfcTag.BuildFromTag(tag));
         BatteryManager.getInstance(this).updateBattery(battery);
+        return true;
     }
 
     @Override

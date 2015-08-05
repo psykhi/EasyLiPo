@@ -53,10 +53,7 @@ public class NfcTag implements Serializable {
         } else if (ob instanceof String) {
             if (this.string.equals(((String) ob).toUpperCase(Locale.US)))
                 return true;
-            else if (this.toFormattedString().equals(((String) ob).toUpperCase(Locale.US)))
-                return true;
-            else
-                return false;
+            else return this.toFormattedString().equals(((String) ob).toUpperCase(Locale.US));
         } else if (ob instanceof byte[]) {
             byte[] otherBytes = (byte[]) ob;
             NfcTag otherTag = NfcTag.BuildFromBytes(otherBytes);
@@ -143,10 +140,11 @@ public class NfcTag implements Serializable {
      * @brief Formats an NFC Tag with our mime type
      * @param tag the NFC tag
      */
-    public  static void formatNdef(Ndef tag,String server_id, Boolean force) {
+    public static boolean formatNdef(Ndef tag, String server_id, Boolean force) {
         NdefMessage ndefMessage;
         NdefRecord ndefRecord;
         boolean alreadyWellFormatted = false;
+        boolean success = false;
 
         //Insert mime theboredengineers/easylipo.
         byte[] mimeData = server_id.getBytes();
@@ -182,6 +180,7 @@ public class NfcTag implements Serializable {
                 tag.writeNdefMessage(ndefMessage);
                 tag.close();
                 Log.i("NFC", "tag formatted as " + mimeType + ":" + server_id);
+                success = true;
             } catch (IOException | FormatException e) {
                 Log.i("NFC", "Can't format... Unexpected");
             }
@@ -191,7 +190,7 @@ public class NfcTag implements Serializable {
             else
                 Log.i("NFC", "Tag is not editable.");
         }
-
+        return success;
     }
 
     public static String getServerIDFromIntent(Intent intent) {

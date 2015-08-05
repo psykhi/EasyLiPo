@@ -3,7 +3,7 @@ package com.theboredengineers.easylipo.network.command;
 import android.content.Context;
 
 import com.theboredengineers.easylipo.network.NetworkCommand;
-import com.theboredengineers.easylipo.network.NetworkCommandListener;
+import com.theboredengineers.easylipo.network.listeners.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 /**

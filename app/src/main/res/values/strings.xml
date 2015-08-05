@@ -37,7 +37,9 @@
     <string name="name">Name</string>
     <string name="brand">Brand</string>
     <string name="model">Model</string>
+    <string name="cells">Cells</string>
     <string name="discharge_rate_in_c">Discharge rate in C</string>
+    <string name="charge_rate_in_c">Charge rate in C</string>
     <string name="capacity_in_mah">Capacity in mAh</string>
     <string name="acquisition_date">Acquisition date</string>
 </resources>

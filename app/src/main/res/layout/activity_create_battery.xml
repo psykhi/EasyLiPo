@@ -17,7 +17,7 @@
     <view
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.theboredengineers.easylipo.ui.views.NonSwipeableViewPager"
+        class="com.theboredengineers.easylipo.ui.views.BlockableViewPager"
         android:id="@+id/viewPager_new_battery"
         android:layout_gravity="center"
         android:layout_alignParentLeft="true"

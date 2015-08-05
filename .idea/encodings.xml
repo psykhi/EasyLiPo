@@ -3,7 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/theboredengineers/easylipo/ui/adapters/AdapterNewBatteryViewPager.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/theboredengineers/easylipo/ui/fragments/FragmentNewBattery.java" charset="windows-1252" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/theboredengineers/easylipo/ui/views/NonSwipeableViewPager.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/theboredengineers/easylipo/ui/views/BlockableViewPager.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/theboredengineers/easylipo/ui/views/RichNumberPicker.java" charset="windows-1252" />
     <file url="PROJECT" charset="UTF-8" />
   </component>

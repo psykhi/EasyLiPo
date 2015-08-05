@@ -15,7 +15,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkManager;
-import com.theboredengineers.easylipo.network.NetworkSyncListener;
+import com.theboredengineers.easylipo.network.listeners.NetworkSyncListener;
 import com.theboredengineers.easylipo.objects.Battery;
 import com.theboredengineers.easylipo.ui.DividerItemDecoration;
 import com.theboredengineers.easylipo.ui.activities.ActivityCreateBattery;
@@ -91,19 +91,6 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
 
 
 
-    }
-
-    //FIXME for test purposes...
-    private void temp_create_db(BatteryManager batteryManager) {
-        int i;
-        ArrayList<Battery> battery_list = Battery.CreateRandomBatteries(35);
-
-        batteryManager.removeAllBatteries();
-
-        for(i = 0;i<battery_list.size();i++)
-        {
-            batteryManager.insertBattery(battery_list.get(i));
-        }
     }
 
     @Override
@@ -186,7 +173,7 @@ public class BatteryListFragment extends BaseFragment implements SwipeRefreshLay
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnBatteryListFragmentInteractionListener {
-        public void onBatteryClick(Battery batt);
+        void onBatteryClick(Battery batt);
     }
 
 }

@@ -12,8 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
-import com.theboredengineers.easylipo.network.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.network.listeners.NetworkCommandListener;
 
 import org.json.JSONObject;
 

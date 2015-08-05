@@ -20,12 +20,12 @@ public class ASyncTaskUpdateDB extends AsyncTask<Object, Integer, Integer> {
 
         Iterator<Battery> insertIterator = insertList.iterator();
         while (insertIterator.hasNext()) {
-            BatteryManager.getInstance(context).insertBattery(insertIterator.next());
+            BatteryManager.getInstance(context).insertBatterySQL(insertIterator.next());
         }
 
         Iterator<Battery> updateIterator = updateList.iterator();
         while (updateIterator.hasNext()) {
-            BatteryManager.getInstance(context).updateBattery(updateIterator.next());
+            BatteryManager.getInstance(context).updateBatterySQL(updateIterator.next());
         }
         return 1;
     }

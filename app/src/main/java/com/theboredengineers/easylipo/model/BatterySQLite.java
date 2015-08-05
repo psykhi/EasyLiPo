@@ -18,6 +18,8 @@ import java.util.Date;
  */
 public class BatterySQLite {
 
+    private static final String TAG = "BatterySQLite";
+
     SQLiteDatabase db = null;
     Context context = null;
     EasyLipoSQLite sql;
@@ -71,10 +73,11 @@ public class BatterySQLite {
         values.put(EasyLipoSQLite.COL_BAT_RATING, battery.getRating());
         values.put(EasyLipoSQLite.COL_BAT_NBS, battery.getNbS());
         values.put(EasyLipoSQLite.COL_BAT_NBP, battery.getNbP());
+        values.put(EasyLipoSQLite.COL_BAT_CHARGED, battery.isCharged());
 
-        int timeOfPurchase;
+        long timeOfPurchase;
         if (battery.getPurchaseDate() != null)
-            timeOfPurchase = (int) battery.getPurchaseDate().getTime();
+            timeOfPurchase = battery.getPurchaseDate().getTime();
         else
             timeOfPurchase = -1;
         values.put(EasyLipoSQLite.COL_BAT_PURCHASEDATE, timeOfPurchase);
@@ -112,10 +115,11 @@ public class BatterySQLite {
         values.put(EasyLipoSQLite.COL_BAT_RATING, battery.getRating());
         values.put(EasyLipoSQLite.COL_BAT_NBS, battery.getNbS());
         values.put(EasyLipoSQLite.COL_BAT_NBP, battery.getNbP());
+        values.put(EasyLipoSQLite.COL_BAT_CHARGED, battery.isCharged());
 
-        int timeOfPurchase;
+        long timeOfPurchase;
         if (battery.getPurchaseDate() != null)
-            timeOfPurchase = (int) battery.getPurchaseDate().getTime();
+            timeOfPurchase = battery.getPurchaseDate().getTime();
         else
             timeOfPurchase = -1;
         values.put(EasyLipoSQLite.COL_BAT_PURCHASEDATE, timeOfPurchase);
@@ -142,7 +146,8 @@ public class BatterySQLite {
             EasyLipoSQLite.COL_BAT_PURCHASEDATE,
             EasyLipoSQLite.COL_BAT_NBOFCYCLES,
             EasyLipoSQLite.COL_BAT_NBS,
-            EasyLipoSQLite.COL_BAT_NBP};
+            EasyLipoSQLite.COL_BAT_NBP,
+            EasyLipoSQLite.COL_BAT_CHARGED};
 
 
     /**
@@ -293,10 +298,7 @@ public class BatterySQLite {
         int i = db.delete(EasyLipoSQLite.TABLE_BATTERIES,
                 EasyLipoSQLite.COL_BAT_LOCAL_ID + "=" + id,
                 null);
-        if(i==1)
-            return true;
-        else
-            return false;
+        return i == 1;
     }
 
     public boolean removeBattery(NfcTag nfcTag){
@@ -304,10 +306,7 @@ public class BatterySQLite {
         int i = db.delete(EasyLipoSQLite.TABLE_BATTERIES,
                 EasyLipoSQLite.COL_BAT_TAGID + "=?" , //string : pass arg as 3rd arg of delete func
                 new String[]{nfcTag.toString()});
-        if(i==1)
-            return true;
-        else
-            return false;
+        return i == 1;
     }
 
     /**
@@ -328,8 +327,15 @@ public class BatterySQLite {
         do {
             String nfcTagString;
             String name, brand, model,server_id;
-            int id, capacity, chargeRate, dischargeRate, nbOfCycles, rating, dateInt,
-                    nbS, nbP;
+            int id;
+            int capacity;
+            int chargeRate;
+            int dischargeRate;
+            int nbOfCycles;
+            int rating;
+            long dateInt;
+            int nbS;
+            int nbP;
             id = c.getInt(0);
             server_id = c.getString(1);
             name = c.getString(2);
@@ -340,12 +346,15 @@ public class BatterySQLite {
             dischargeRate = c.getInt(7);
             nfcTagString = c.getString(8);
             rating = c.getInt(9);
-            dateInt = c.getInt(10);
+            dateInt = c.getLong(10);
             nbOfCycles = c.getInt(11);
             nbS = c.getInt(12);
             nbP = c.getInt(13);
+            boolean charged;
+            charged = c.getInt(14) == 1;
             NfcTag tag = NfcTag.BuildFromString(nfcTagString);
             Date date = null;
+            Log.d(TAG, "Date int " + dateInt);
             if (dateInt != -1)
                 date = new Date(dateInt);
 
@@ -364,6 +373,7 @@ public class BatterySQLite {
             battery.setNbOfCycles(nbOfCycles);
             battery.setNbS(nbS);
             battery.setNbP(nbP);
+            battery.setCharged(charged);
 
             batteries.add(battery);
 

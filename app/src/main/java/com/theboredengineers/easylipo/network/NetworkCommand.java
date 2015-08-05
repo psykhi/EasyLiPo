@@ -3,6 +3,7 @@ package com.theboredengineers.easylipo.network;
 import android.content.Context;
 import android.util.Log;
 
+import com.theboredengineers.easylipo.network.listeners.NetworkCommandListener;
 import com.theboredengineers.easylipo.network.server.RemoteServer;
 
 import org.json.JSONObject;
@@ -20,7 +21,10 @@ public abstract class NetworkCommand {
 
     public abstract String getRoute();
 
-    public String customRoute(){return "";};
+    public String customRoute() {
+        return "";
+    }
+
     public JSONObject getJSON() {
         return null;
     }

@@ -15,6 +15,8 @@ import java.util.Random;
  */
 public class Battery implements Serializable {
 
+    private static final String TAG = "Battery";
+
     /**
      * Id of the battery directly related to its place in database.
      */

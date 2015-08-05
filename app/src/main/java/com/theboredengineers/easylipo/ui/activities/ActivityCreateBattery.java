@@ -7,11 +7,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.model.BatteryManager;
-import com.theboredengineers.easylipo.network.NetworkManager;
+import com.theboredengineers.easylipo.network.listeners.OnBatteryInsertedListener;
 import com.theboredengineers.easylipo.objects.Battery;
+import com.theboredengineers.easylipo.objects.NfcTag;
 import com.theboredengineers.easylipo.ui.adapters.AdapterNewBatteryViewPager;
 import com.theboredengineers.easylipo.ui.fragments.FragmentNewBattery;
 import com.theboredengineers.easylipo.ui.fragments.FragmentNewBattery.BatterySupplier;
@@ -69,14 +71,30 @@ public class ActivityCreateBattery extends NfcActivity implements FragmentNewBat
     }
 
     @Override
-    protected void onNfcTagScanned(Tag tag, Ndef ndef) {
-        super.onNfcTagScanned(tag, ndef);
+    protected boolean onNfcTagScanned(Tag tag, final Ndef ndef) {
+        battery.setTagID(NfcTag.BuildFromTag(tag));
+        dlgAlertWaitForTag.setTitle("Waiting for the server... Hold still :)");
+        BatteryManager.getInstance(this).insertBattery(battery, new OnBatteryInsertedListener() {
+            @Override
+            public void onBatteryInserted(String serverID) {
+                dlgAlertWaitForTag.dismiss();
+                if (NfcTag.formatNdef(ndef, serverID, true)) {
+                    Toast.makeText(ActivityCreateBattery.this, "Tag successfully formatted", Toast.LENGTH_LONG).show();
+                    finish();
+                } else {
+                    Toast.makeText(ActivityCreateBattery.this, "Failed to format the tag :(", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
+        return false;
+
     }
 
     @Override
     public void onDone() {
-        BatteryManager.getInstance(this).insertBattery(battery);
-        NetworkManager.getInstance().addNewBattery(this, battery);
+        BatteryManager.getInstance(this).insertBattery(battery, null);
         finish();
     }
 
