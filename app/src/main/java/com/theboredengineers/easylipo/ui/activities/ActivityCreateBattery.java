@@ -78,11 +78,15 @@ public class ActivityCreateBattery extends NfcActivity implements FragmentNewBat
             @Override
             public void onBatteryInserted(String serverID) {
                 dlgAlertWaitForTag.dismiss();
-                if (NfcTag.formatNdef(ndef, serverID, true)) {
-                    Toast.makeText(ActivityCreateBattery.this, "Tag successfully formatted", Toast.LENGTH_LONG).show();
-                    finish();
+                if (serverID != null) {
+                    if (NfcTag.formatNdef(ndef, serverID, true)) {
+                        Toast.makeText(ActivityCreateBattery.this, "Tag successfully formatted", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(ActivityCreateBattery.this, "Failed to format the tag :(", Toast.LENGTH_LONG).show();
+                    }
                 } else {
-                    Toast.makeText(ActivityCreateBattery.this, "Failed to format the tag :(", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ActivityCreateBattery.this, "Internet connection required.", Toast.LENGTH_LONG).show();
                 }
 
 

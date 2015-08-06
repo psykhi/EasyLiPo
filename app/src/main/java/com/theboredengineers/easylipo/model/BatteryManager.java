@@ -139,7 +139,8 @@ public class BatteryManager {
     public Boolean addCycle(Battery battery)
     {
         battery.setNbOfCycles(battery.getNbOfCycles() + 1);
-        return updateBattery(battery) != -1;
+        NetworkManager.getInstance().addCycle(context, battery);
+        return updateBatterySQL(battery) != -1;
     }
     /**
      * Get a battery from system

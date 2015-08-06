@@ -80,9 +80,11 @@ public class BatteryDetailsFragment extends BaseFragment {
                 } else {
                     BatteryManager.getInstance(getActivity()).addCycle(battery);
                     setCycleCount(battery.getNbOfCycles());
-                    battery.setCharged(false);
-                    charged.setChecked(false);
-                    BatteryManager.getInstance(getActivity()).updateBattery(battery);
+                    if (battery.isCharged()) {
+                        battery.setCharged(false);
+                        charged.setChecked(false);
+                        BatteryManager.getInstance(getActivity()).updateBattery(battery);
+                    }
                 }
             }
         });

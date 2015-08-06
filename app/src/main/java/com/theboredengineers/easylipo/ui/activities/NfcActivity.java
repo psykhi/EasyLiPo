@@ -105,9 +105,10 @@ public class NfcActivity extends SecuredActivity {
         Log.i("NFC", "affect");
 
         isTagInProcess = false;
-        if ((dlgAlertWaitForTag != null) && dismissDialog)
+        if ((dlgAlertWaitForTag != null) && dismissDialog) {
             dlgAlertWaitForTag.dismiss();
-        dlgAlertWaitForTag = null;
+            dlgAlertWaitForTag = null;
+        }
     }
 
     protected boolean onNfcTagScanned(Tag tag, Ndef ndef)
