@@ -2,7 +2,6 @@ package com.theboredengineers.easylipo.security;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.theboredengineers.easylipo.model.BatteryManager;
 import com.theboredengineers.easylipo.network.NetworkManager;
@@ -21,8 +20,8 @@ public class AuthManager implements NetworkEventListener {
     private static AuthManager instance = null;
     private boolean loggedIn = false;
     private ArrayList<NetworkEventListener> listeners = null;
-    private String sessionId = null;
-
+    private static String sessionId = null;
+    private static final String TAG = "AuthManager";
     private AuthManager() {
         listeners = new ArrayList<NetworkEventListener>();
     }
@@ -105,8 +104,8 @@ public class AuthManager implements NetworkEventListener {
 
     public String getSessionId(Context context) {
 
-        sessionId = context.getSharedPreferences("easylipo", Context.MODE_PRIVATE).getString("session","lol");
-        //Log.d("get session",sessionId);
+        if (sessionId == null)
+            sessionId = context.getSharedPreferences("easylipo", Context.MODE_PRIVATE).getString("session", "lol");
         return sessionId;
     }
 
@@ -114,9 +113,7 @@ public class AuthManager implements NetworkEventListener {
         SharedPreferences preferences = context.getSharedPreferences("easylipo", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor =preferences.edit();
         editor.putString("session", cookie).apply();
-
-        Log.d("session", context.getSharedPreferences("easylipo", Context.MODE_PRIVATE).getString("session", "lol"));
-        this.sessionId = cookie;
+        sessionId = cookie;
     }
 
 }

@@ -27,6 +27,7 @@ public class NfcActivity extends SecuredActivity {
     private NfcAdapter mAdapter;
     private PendingIntent pendingIntent;
     protected AlertDialog dlgAlertWaitForTag = null;
+    private static final String TAG = "NFC Activity";
 
 
     @Override
@@ -35,14 +36,14 @@ public class NfcActivity extends SecuredActivity {
 
         pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        IntentFilter ndefFilter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
         try {
-            ndef.addDataType("*/*");    /* Handles all MIME based dispatches.
+            ndefFilter.addDataType("*/*");    /* Handles all MIME based dispatches.
                                        You should specify only the ones that you need. */
         } catch (IntentFilter.MalformedMimeTypeException e) {
             throw new RuntimeException("fail", e);
         }
-        intentFiltersArray = new IntentFilter[]{ndef,};
+        intentFiltersArray = new IntentFilter[]{ndefFilter,};
         techListsArray = new String[][]{new String[]{NfcA.class.getName()}};
         mAdapter = NfcAdapter.getDefaultAdapter(getApplicationContext());
     }
@@ -91,7 +92,7 @@ public class NfcActivity extends SecuredActivity {
         if (tagFromIntent == null || tag == null)
             return;
 
-        Log.i("NFC", "new NFC tag scanned : " + NfcTag.BuildFromBytes(tagFromIntent.getId()).toFormattedString());
+        Log.i(TAG, "new NFC tag scanned : " + NfcTag.BuildFromBytes(tagFromIntent.getId()).toFormattedString());
 
 
         boolean dismissDialog = true;
@@ -101,6 +102,7 @@ public class NfcActivity extends SecuredActivity {
 
         } else {
             Toast.makeText(this,"Non writable TAG unsupported",Toast.LENGTH_LONG).show();
+            dismissDialog = true;
         }
         Log.i("NFC", "affect");
 

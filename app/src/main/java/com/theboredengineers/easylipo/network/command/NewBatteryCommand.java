@@ -12,10 +12,9 @@ import org.json.JSONObject;
 public class NewBatteryCommand extends NetworkCommand {
     private final Battery battery;
 
-
-
     public NewBatteryCommand(Battery b) {
         this.battery = b;
+        this.batteryId = b.getLocalId();
     }
 
     @Override

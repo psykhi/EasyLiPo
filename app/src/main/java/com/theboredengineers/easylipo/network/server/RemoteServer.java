@@ -79,7 +79,7 @@ public  class RemoteServer{
 
             batt.setName(name);
             batt.setPurchaseDate(date);
-            batt.setServer_id(jsonObject.getString("_id"));
+            batt.setServerId(jsonObject.getString("_id"));
             batt.setNbOfCycles(jsonObject.getInt("cycles"));
             batt.setChargeRate(jsonObject.getInt("charge"));
             batt.setDischargeRate(jsonObject.getInt("discharge"));

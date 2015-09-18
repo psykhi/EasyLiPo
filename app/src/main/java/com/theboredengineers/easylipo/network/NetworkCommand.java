@@ -14,7 +14,8 @@ import org.json.JSONObject;
 public abstract class NetworkCommand {
     private NetworkCommandListener commandListener;
     private static final String TAG = "Network command";
-    private int id;
+    private long id;
+    protected long batteryId = -1;
 
     public NetworkCommand()
     {
@@ -22,10 +23,6 @@ public abstract class NetworkCommand {
     public abstract String getMethod();
 
     public abstract String getRoute();
-
-    public String customRoute() {
-        return "";
-    }
 
     public JSONObject getJSON() {
         return null;
@@ -54,11 +51,15 @@ public abstract class NetworkCommand {
 
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public long getBatteryLocalId() {
+        return batteryId;
     }
 }

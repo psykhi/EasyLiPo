@@ -154,7 +154,7 @@ public class BatteryManager {
 
     public Battery getBatteryByServerId(String id) {
         Battery b = new Battery();
-        b.setServer_id(id);
+        b.setServerId(id);
         if(list.contains(b))
             return list.get(list.indexOf(b));
         else return null;
@@ -196,11 +196,11 @@ public class BatteryManager {
      */
     public boolean removeBattery(Battery bat) {
         list.remove(bat);
-        boolean returnCode = removeBatterySQL(bat.getId());
+        boolean returnCode = removeBatterySQL(bat.getLocalId());
         if(returnCode)
             bat.setID(-1); // The battery is not in the system anymore
         if (!bat.isLocal())
-            NetworkManager.getInstance().removeBattery(context, bat.getServer_id());
+            NetworkManager.getInstance().removeBattery(context, bat.getServerId());
         notifyListeners();
         return returnCode;
     }
@@ -268,7 +268,7 @@ public class BatteryManager {
                 if (!serverList.contains(old)) {
                     // The local battery has been deleted :( RIP
                     Log.d(TAG, "REP " + old);
-                    removeBatterySQL(old.getId());
+                    removeBatterySQL(old.getLocalId());
                     iterator.remove();
                 }
             }
@@ -281,7 +281,7 @@ public class BatteryManager {
                 int index = list.indexOf(serverBattery);
                 if (index != -1) {
                     // We replace the element in the list :o
-                    serverBattery.setID(list.get(index).getId());
+                    serverBattery.setID(list.get(index).getLocalId());
                     list.remove(index);
                     list.add(index, serverBattery);
                     // We don't forget to update the DB
@@ -308,7 +308,7 @@ public class BatteryManager {
                     return -1;
                 else if (cellsBatt == cellsT1)
                     return 0;
-                else
+                else 
                     return 1;
             }
         });
@@ -325,7 +325,7 @@ public class BatteryManager {
             Battery batt = new Battery();
             batt.setName(name);
             batt.setPurchaseDate(date);
-            batt.setServer_id(jsonObject.getString("_id"));
+            batt.setServerId(jsonObject.getString("_id"));
             batt.setNbOfCycles(jsonObject.getInt("cycles"));
             batt.setBrand(jsonObject.getString("brand"));
             batt.setModel(jsonObject.getString("model"));

@@ -3,7 +3,6 @@ package com.theboredengineers.easylipo.ui.activities;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.theboredengineers.easylipo.R;
 
@@ -15,7 +14,22 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Activity", this.getClass().toString());
+        setView();
+        bindViews();
+        setListeners();
+        //Log.d("Activity started : ", this.getClass().toString());
+    }
+
+    protected void bindViews() {
+
+    }
+
+    protected void setView() {
+
+    }
+
+    protected void setListeners() {
+
 
     }
 

@@ -28,7 +28,6 @@ public class BatteryDetailsFragment extends BaseFragment {
     private TextView cyclesView;
     private Battery battery;
     private FloatingActionButton buttonAddCycle;
-    private int position;
     private EditText brand;
     private OnBatteryDetailsInteractionLister listener;
     private EditText model;
@@ -46,7 +45,7 @@ public class BatteryDetailsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_activity_battery_details, container, false);
-        position = getArguments().getInt("batteryListPosition");
+        int position = getArguments().getInt("batteryListPosition");
         battery =BatteryManager.getInstance(getActivity())
                 .getBatteryList().get(position);
         cyclesView = (TextView) v.findViewById(R.id.textViewCycleCount);

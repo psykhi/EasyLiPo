@@ -118,7 +118,7 @@ public class ActivityBatteryDetails extends NfcActivity implements ViewPager.OnP
 
     private void onDeleteButtonClicked(int position) {
         Battery toRemove = batteryList.get(position);
-        String serverId = toRemove.getServer_id();
+        String serverId = toRemove.getServerId();
         Boolean isLocal = toRemove.isLocal();
         BatteryManager.getInstance(this).removeBattery(toRemove);
 

@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.theboredengineers.easylipo.model.BatteryManager;
+import com.theboredengineers.easylipo.model.CommandManager;
 import com.theboredengineers.easylipo.network.command.AddCycleCommand;
 import com.theboredengineers.easylipo.network.command.DeleteCommand;
 import com.theboredengineers.easylipo.network.command.GetBatteriesCommand;
@@ -56,32 +57,28 @@ public class NetworkManager implements NetworkSyncListener {
             observers.add(listener);
         if(!syncing) {
             syncing = true;
-            PendingCommands.processAll(context, new NetworkSyncListener() {
+            CommandManager.getInstance(context).processAll(context, new NetworkSyncListener() {
                 @Override
                 public void onNetworkSyncEnded(Boolean success, String errorMessageFromJSON) {
                     if (success) {
                         new GetBatteriesCommand().execute(context, new NetworkCommandListener() {
                             @Override
                             public void onNetworkTaskEnd(Boolean success, Object json) {
-                                if(success) {
+                                if (success) {
                                     BatteryManager.getInstance(context).setBatteries(json);
                                     syncing = false;
                                     // TODO signal to all observers...
 
                                     if (listener != null)
                                         listener.onNetworkSyncEnded(true, null);
-                                }
-                                else
-                                {
+                                } else {
                                     syncing = false;
                                     if (listener != null)
                                         listener.onNetworkSyncEnded(success, RemoteServer.getErrorMessageFromJSON(json));
                                 }
                             }
                         });
-                    }
-                    else
-                    {
+                    } else {
                         syncing = false;
                         if (listener != null)
                             listener.onNetworkSyncEnded(success, errorMessageFromJSON);
@@ -121,14 +118,14 @@ public class NetworkManager implements NetworkSyncListener {
                     Log.d("battery", json.toString());
                     try {
                         serverID = ((JSONObject) json).getString("_id");
-                        b.setServer_id(serverID);
+                        b.setServerId(serverID);
                         BatteryManager.getInstance(context).updateBatterySQL(b);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    PendingCommands.add(command);
+                    CommandManager.getInstance(context).add(command);
                     Log.e(TAG, "failed to upload battery");
                 }
                 if (listener != null)
@@ -137,16 +134,16 @@ public class NetworkManager implements NetworkSyncListener {
         });
     }
 
-    public void addCycle(Context context, Battery battery) {
+    public void addCycle(final Context context, Battery battery) {
         if (!battery.isLocal()) {
-            final AddCycleCommand command = new AddCycleCommand(battery.getServer_id());
+            final AddCycleCommand command = new AddCycleCommand(battery.getServerId());
             command.execute(context, new NetworkCommandListener() {
                 @Override
                 public void onNetworkTaskEnd(Boolean success, Object json) {
                     if (success) {
                         Log.d("battery", "OK");
                     } else {
-                        PendingCommands.add(command);
+                        CommandManager.getInstance(context).add(command);
                         Log.e("battery", "failed to upload battery");
                     }
                 }
@@ -154,7 +151,7 @@ public class NetworkManager implements NetworkSyncListener {
         }
     }
 
-    public void updateBattery(Context context, Battery battery) {
+    public void updateBattery(final Context context, Battery battery) {
 
         final UpdateBatteryCommand command = new UpdateBatteryCommand(battery);
         command.execute(context, new NetworkCommandListener() {
@@ -163,7 +160,7 @@ public class NetworkManager implements NetworkSyncListener {
                 if (success) {
                     Log.d("battery", "OK");
                 } else {
-                    PendingCommands.add(command);
+                    CommandManager.getInstance(context).add(command);
                     Log.e("battery", "failed to upload battery");
                 }
                 }
@@ -171,7 +168,7 @@ public class NetworkManager implements NetworkSyncListener {
 
     }
 
-    public void removeBattery(Context context, String serverId) {
+    public void removeBattery(final Context context, String serverId) {
 
         final DeleteCommand command = new DeleteCommand(serverId);
         command.execute(context, new NetworkCommandListener() {
@@ -180,7 +177,7 @@ public class NetworkManager implements NetworkSyncListener {
                 if (success) {
                     Log.d("battery", "OK");
                 } else {
-                    PendingCommands.add(command);
+                    CommandManager.getInstance(context).add(command);
                     Log.e("battery", "failed to delete battery");
                 }
             }

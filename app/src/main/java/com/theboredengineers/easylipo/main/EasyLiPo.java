@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.theboredengineers.easylipo.R;
 import com.theboredengineers.easylipo.security.AuthManager;
 
 /**
@@ -20,7 +21,7 @@ public class EasyLiPo extends Application {
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
 
-        tracker = analytics.newTracker("UA-64101522-1");
+        tracker = analytics.newTracker(getString(R.string.id));
         tracker.enableExceptionReporting(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableAutoActivityTracking(true);

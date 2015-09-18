@@ -20,7 +20,7 @@ public class Battery implements Serializable {
      */
     private int id = -1;
 
-    private String server_id = "";
+    private String serverId = "";
 
     /**
      * Name of the battery set by User (ex : "Battery 2","Old blue battery")
@@ -139,12 +139,12 @@ public class Battery implements Serializable {
 
     @Override
     public String toString() {
-        return name + " Local " + getId() + " server " + getServer_id();
+        return name + " Local " + getLocalId() + " server " + getServerId();
 
     }
 
     public Boolean isLocal() {
-        return getServer_id().equals("");
+        return getServerId().equals("");
     }
     /*Getters and Setters*/
     public int getNbS() {
@@ -195,7 +195,7 @@ public class Battery implements Serializable {
         this.nfcTag = tagID;
     }
 
-    public int getId() {
+    public int getLocalId() {
         return id;
     }
 
@@ -276,21 +276,21 @@ public class Battery implements Serializable {
         else
         {
             if (!isLocal()) {
-                return ((Battery) o).getServer_id().equals(getServer_id());
+                return ((Battery) o).getServerId().equals(getServerId());
             }
             else {
-                return (((Battery) o).getId() == getId());
+                return (((Battery) o).getLocalId() == getLocalId());
             }
 
         }
     }
 
-    public String getServer_id() {
-        return server_id;
+    public String getServerId() {
+        return serverId;
     }
 
-    public void setServer_id(String server_id) {
-        this.server_id = server_id;
+    public void setServerId(String serverId) {
+        this.serverId = serverId;
     }
 
     public boolean isCharged() {

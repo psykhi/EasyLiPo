@@ -28,7 +28,7 @@ public class UpdateBatteryCommand extends NetworkCommand{
 
     @Override
     public String getRoute() {
-        return RemoteServer.Routes.UPDATE_BATTERY+"/"+battery.getServer_id();
+        return RemoteServer.Routes.UPDATE_BATTERY + "/" + battery.getServerId();
     }
 
     @Override

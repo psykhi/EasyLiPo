@@ -29,7 +29,7 @@ public class BatterySQLite {
      */
     public BatterySQLite(Context context) {
 
-        sql = new EasyLipoSQLite(context);
+        sql = EasyLipoSQLite.getInstance(context);
         db = sql.getWritableDatabase();
         if (!db.isOpen())
             Log.e("Database", "Could not open database " + db.toString());
@@ -60,7 +60,7 @@ public class BatterySQLite {
         //   db.close();
         //db = sql.getWritableDatabase();
         NfcTag tag = battery.getTagID();
-        values.put(EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID, battery.getServer_id());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID, battery.getServerId());
         values.put(EasyLipoSQLite.Batteries.COL_BAT_NAME, battery.getName());
         values.put(EasyLipoSQLite.Batteries.COL_BAT_BRAND, battery.getBrand());
         values.put(EasyLipoSQLite.Batteries.COL_BAT_MODEL, battery.getModel());
@@ -83,16 +83,16 @@ public class BatterySQLite {
         values.put(EasyLipoSQLite.Batteries.COL_BAT_NBOFCYCLES, battery.getNbOfCycles());
 
         id = -1;
-        Battery temp = getBatteryByServerId(battery.getServer_id());
+        Battery temp = getBatteryByServerId(battery.getServerId());
         if(temp != null)
         {
             db.update(EasyLipoSQLite.Batteries.TABLE_BATTERIES, values,
-                    EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
-            id =temp.getId();
+                    EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + battery.getLocalId(), null);
+            id = temp.getLocalId();
         }
         else
             db.update(EasyLipoSQLite.Batteries.TABLE_BATTERIES, values,
-                    EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + battery.getId(), null);
+                    EasyLipoSQLite.Batteries.COL_BAT_LOCAL_ID + "=" + battery.getLocalId(), null);
         return id;
     }
 
@@ -104,7 +104,7 @@ public class BatterySQLite {
         //   db.close();
         //db = sql.getWritableDatabase();
         NfcTag tag = battery.getTagID();
-        values.put(EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID, battery.getServer_id());
+        values.put(EasyLipoSQLite.Batteries.COL_BAT_SERVER_ID, battery.getServerId());
         values.put(EasyLipoSQLite.Batteries.COL_BAT_NAME, battery.getName());
         values.put(EasyLipoSQLite.Batteries.COL_BAT_BRAND, battery.getBrand());
         values.put(EasyLipoSQLite.Batteries.COL_BAT_MODEL, battery.getModel());
@@ -347,7 +347,7 @@ public class BatterySQLite {
                 date = new Date(dateInt);
 
             battery = new Battery();
-            battery.setServer_id(server_id);
+            battery.setServerId(server_id);
             battery.setName(name);
             battery.setTagID(tag);
             battery.setID(id);

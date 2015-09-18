@@ -21,22 +21,27 @@ import com.theboredengineers.easylipo.security.AuthManager;
 import com.theboredengineers.easylipo.security.NetworkEventListener;
 
 public class LoginActivity extends BaseActivity implements NetworkEventListener {
-    Button loginButton;
-    TextView signupButton;
+    private static final String TAG = "Login Activity ";
+    private Button loginButton;
+    private TextView signupButton;
+    private EditText usernameEditText;
+    private EditText passwordEditText;
+    private ProgressDialog progressDialog;
 
-    EditText usernameEditText;
-    EditText passwordEditText;
-    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         progressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
+    }
 
+    @Override
+    protected void setView() {
+        super.setView();
         setContentView(R.layout.activity_login);
-        loginButton = (Button) findViewById(R.id.button_login);
-        signupButton = (TextView) findViewById(R.id.textview_signup);
-        usernameEditText = (EditText) findViewById(R.id.login_username);
-        passwordEditText = (EditText) findViewById(R.id.login_password);
+    }
+
+    @Override
+    protected void setListeners() {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +63,14 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
                 goToSignupActivity();
             }
         });
+    }
+
+    @Override
+    protected void bindViews() {
+        loginButton = (Button) findViewById(R.id.button_login);
+        signupButton = (TextView) findViewById(R.id.textview_signup);
+        usernameEditText = (EditText) findViewById(R.id.login_username);
+        passwordEditText = (EditText) findViewById(R.id.login_password);
     }
 
     private void goToSignupActivity() {
@@ -94,11 +107,6 @@ public class LoginActivity extends BaseActivity implements NetworkEventListener 
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 
     @Override
